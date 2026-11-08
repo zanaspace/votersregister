@@ -19654,7 +19654,7 @@ window.INITIAL_VOTER_RECORDS = [
       }
 
       try {
-        let url = `/api/records?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`;
+        const url = `/api/records?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`;
         const recordsRes = await fetch(url);
         
         if (recordsRes.ok) {
@@ -19665,17 +19665,10 @@ window.INITIAL_VOTER_RECORDS = [
             renderAll();
             return;
           }
-            try {
-              const statesRes = await fetch(`/api/states?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`);
-              if (statesRes.ok) {
-                stateProjections = await statesRes.json();
-              }
-            } catch (e) {}
-            renderAll();
-            return;
-          }
         }
-      } catch (err) {}
+      } catch (err) {
+        console.warn('API fetch notice:', err.message);
+      }
 
       await loadLocalFallback();
     }
