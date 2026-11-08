@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nigeria 2027 INEC Voter Register Audit & Manipulation Detector</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth Touch & Scroll Behavior */
+    html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+    /* Hide scrollbars for clean mobile pill navigation while retaining swipe */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Subtle custom scrollbar for desktop tables */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased flex flex-col selection:bg-rose-100 selection:text-rose-800 pb-12">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <div class="h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 rounded-xl bg-gradient-to-tr from-rose-600 via-amber-500 to-emerald-600 flex items-center justify-center p-0.5 shadow-sm">
+          <div class="h-full w-full bg-white rounded-[10px] flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+          </div>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center space-x-1.5 sm:space-x-2">
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 truncate">
+              INEC Voter Audit
+            </h1>
+            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-200 rounded-full">
+              2023 vs 2027
+            </span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-500 truncate">Citizen Polling Unit Verification & Anomaly Monitor</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2.5">
+        <!-- Live Count Pill -->
+        <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
+          <span class="inline-flex rounded-full h-2 w-2 bg-emerald-500 flex-shrink-0"></span>
+          <span class="text-slate-700 font-semibold text-[11px] sm:text-xs whitespace-nowrap" id="status-live-counter">Syncing...</span>
+        </div>
+
+        <!-- Help Guide Toggle Button -->
+        <button onclick="toggleHelpGuide()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200 flex items-center space-x-1" title="How This Works">
+          <i data-lucide="help-circle" class="w-4 h-4 text-blue-600"></i>
+          <span class="hidden md:inline text-xs font-semibold">How It Works</span>
+        </button>
+
+        <!-- Refresh Button -->
+        <button onclick="refreshData()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200" title="Refresh Live Data">
+          <i data-lucide="refresh-cw" class="w-4 h-4" id="refresh-icon"></i>
+        </button>
+
+        <!-- Export CSV Button (Desktop) -->
+        <button onclick="exportFlaggedCSV()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Export Flagged</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+
+    <!-- "How It Works & How Anyone Can Understand This" Onboarding Banner (Dismissible / Toggleable) -->
+    <section id="onboarding-guide-card" class="bg-gradient-to-br from-blue-50/80 via-white to-slate-50 border border-blue-200/90 rounded-2xl p-4 sm:p-5 shadow-sm transition">
+      <div class="flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <span class="p-1 rounded-lg bg-blue-100 text-blue-700">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </span>
+            <h2 class="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wide">
+              How Anyone Can Understand This Audit in 30 Seconds
+            </h2>
+          </div>
+          <p class="text-xs text-slate-600 max-w-3xl leading-relaxed">
+            Every citizen has the right to know if the voter register in their ward is authentic. Here is how our automated system audits every polling unit:
+          </p>
+        </div>
+        <button onclick="toggleHelpGuide()" class="text-slate-400 hover:text-slate-600 p-1" title="Hide Guide">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- 3 Simple Pillars -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3.5 pt-3 border-t border-blue-100/80 text-xs">
+        <div class="bg-white p-3 rounded-xl border border-blue-100 shadow-xs space-y-1">
+          <div class="font-bold text-slate-900 flex items-center space-x-1.5">
+            <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-black text-[11px] flex items-center justify-center">1</span>
+            <span>2023 vs 2027 Numbers</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            We compare the certified 2023 voter list against the preliminary 2027 list currently displayed by INEC for the exact same polling unit.
+          </p>
+        </div>
+
+        <div class="bg-white p-3 rounded-xl border border-blue-100 shadow-xs space-y-1">
+          <div class="font-bold text-slate-900 flex items-center space-x-1.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-black text-[11px] flex items-center justify-center">2</span>
+            <span>Natural 4-Year Growth (12%)</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            In Nigeria, eligible adult population grows by ~2.6% per year (about 10%–15% over 4 years). That is the normal, expected baseline.
+          </p>
+        </div>
+
+        <div class="bg-white p-3 rounded-xl border border-blue-100 shadow-xs space-y-1">
+          <div class="font-bold text-slate-900 flex items-center space-x-1.5">
+            <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 font-black text-[11px] flex items-center justify-center">3</span>
+            <span>What Causes a "Red Flag"?</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            If a quiet village jumps by +200% or adds 600 voters with <strong>no new housing estate, university, or IDP camp</strong>, it is flagged as <strong>Suspected Manipulation</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Color Legend Chips -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-3 pt-2 text-[11px]">
+        <span class="font-bold text-slate-700 mr-1">Status Badges:</span>
+        <span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold border border-rose-200">🚨 Flagged Manipulation</span>
+        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-semibold border border-amber-200">⚠️ Suspicious Anomaly</span>
+        <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-semibold border border-blue-200">ℹ️ Verified Real-World Event</span>
+        <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200">✅ Normal Growth</span>
+        <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-semibold border border-purple-200">📉 Voter Roll Shrinkage</span>
+      </div>
+    </section>
+
+    <!-- Top KPI Metrics Cards (Optimized for Mobile & Desktop) -->
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
+      <!-- KPI 1: Total Polling Units -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Audited Units</span>
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight" id="kpi-audited-units">0</div>
+        <div class="text-[10px] sm:text-[11px] text-slate-500 mt-1 flex items-center space-x-1">
+          <span id="kpi-states-count" class="text-emerald-700 font-bold">37</span>
+          <span>states covered</span>
+        </div>
+        <div class="h-1 w-full bg-emerald-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 2: 2023 Baseline Total -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">2023 Baseline</span>
+          <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight" id="kpi-2023-voters">0</div>
+        <div class="text-[10px] sm:text-[11px] text-slate-500 mt-1">Official sample total</div>
+        <div class="h-1 w-full bg-blue-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 3: 2027 Preliminary Total -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">2027 Voters</span>
+          <i data-lucide="user-plus" class="w-3.5 h-3.5 text-amber-500"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight" id="kpi-2027-voters">0</div>
+        <div class="text-[10px] sm:text-[11px] text-amber-700 font-bold mt-1" id="kpi-net-growth">+0% growth</div>
+        <div class="h-1 w-full bg-amber-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 4: Flagged for Manipulation -->
+      <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-rose-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Flagged</span>
+          <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-rose-600 tracking-tight" id="kpi-flagged-count">0</div>
+        <div class="text-[10px] sm:text-[11px] text-rose-700 font-bold mt-1 flex items-center space-x-1">
+          <span id="kpi-flagged-pct">0%</span>
+          <span>of audit sample</span>
+        </div>
+        <div class="h-1 w-full bg-rose-600 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 5: Critical Outliers -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Extreme Spikes</span>
+          <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-500"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-rose-700 tracking-tight" id="kpi-critical-count">0</div>
+        <div class="text-[10px] sm:text-[11px] text-slate-500 mt-1">&gt;100% or Cap breach</div>
+        <div class="h-1 w-full bg-rose-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 6: Artificial Voter Surplus -->
+      <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-amber-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Artificial Surplus</span>
+          <i data-lucide="calculator" class="w-3.5 h-3.5 text-amber-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-amber-800 tracking-tight" id="kpi-surplus-voters">0</div>
+        <div class="text-[10px] sm:text-[11px] text-amber-700 font-medium mt-1">Excess voters flagged</div>
+        <div class="h-1 w-full bg-amber-500 rounded-full mt-2"></div>
+      </div>
+    </section>
+
+    <!-- State Projections & Analytics Section -->
+    <section class="space-y-3 sm:space-y-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center space-x-2">
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-600"></i>
+            <span>State-by-State Projections & Discrepancy Risk</span>
+          </h2>
+          <p class="text-[11px] sm:text-xs text-slate-500">
+            Extrapolated 2027 voter register projections based on certified empirical polling unit audit samples
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="toggleSimulationDrawer()" class="px-2.5 py-1.5 text-xs font-semibold rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-xs flex items-center space-x-1.5 transition">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Adjust Growth Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulation Settings Drawer (Collapsible) -->
+      <div id="simulation-drawer" class="hidden bg-white border border-slate-200 rounded-2xl p-4 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-700 font-semibold">4-Year Organic Baseline:</span>
+            <span class="text-emerald-700 font-mono font-bold" id="val-organic-rate">12%</span>
+          </div>
+          <input type="range" min="5" max="25" value="12" id="slider-organic-rate" oninput="updateSimParams()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+          <p class="text-[10px] text-slate-500 mt-1">Expected eligible adult population growth</p>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-700 font-semibold">Urban Corridor Allowance:</span>
+            <span class="text-blue-700 font-mono font-bold" id="val-urban-rate">35%</span>
+          </div>
+          <input type="range" min="15" max="60" value="35" id="slider-urban-rate" oninput="updateSimParams()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+          <p class="text-[10px] text-slate-500 mt-1">Allowable growth in high-influx LGAs</p>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-700 font-semibold">Suspicious Surge Threshold:</span>
+            <span class="text-amber-700 font-mono font-bold" id="val-suspicious-thresh">+50</span>
+          </div>
+          <input type="range" min="20" max="150" value="50" id="slider-suspicious-thresh" oninput="updateSimParams()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600">
+          <p class="text-[10px] text-slate-500 mt-1">Discrepancy margin triggering warning</p>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-700 font-semibold">Statutory Mega-PU Cap:</span>
+            <span class="text-rose-700 font-mono font-bold" id="val-mega-cap">1,000</span>
+          </div>
+          <input type="range" min="750" max="1500" step="50" value="1000" id="slider-mega-cap" oninput="updateSimParams()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-600">
+          <p class="text-[10px] text-slate-500 mt-1">Single PU limit before mandatory unbundling</p>
+        </div>
+      </div>
+
+      <!-- Charts & High-Risk States Watchlist -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
+        <!-- Visual Projection Chart -->
+        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Top 10 Growth States vs Expected Baseline</h3>
+            <span class="text-[10px] sm:text-[11px] text-slate-400">Green: 2023 | Amber: 2027 | Blue: Ceiling</span>
+          </div>
+          <div class="h-56 sm:h-64 w-full">
+            <canvas id="stateProjectionChart"></canvas>
+          </div>
+        </div>
+
+        <!-- High-Risk Watchlist -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-xs flex flex-col justify-between space-y-3">
+          <div>
+            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide flex items-center space-x-1.5">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i>
+              <span>High Risk State Watchlist</span>
+            </h3>
+            <p class="text-[11px] text-slate-500 mt-0.5">States with highest register inflation risk:</p>
+          </div>
+
+          <div class="space-y-2 flex-1 overflow-y-auto max-h-56 pr-0.5" id="high-risk-states-list">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
+            <span>Critical manipulation rate: &gt;20%</span>
+            <span class="text-rose-700 font-bold" id="critical-states-count">0 States</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- State Projection Table (Horizontal Scroll on Mobile) -->
+      <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+        <div class="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="table" class="w-4 h-4 text-slate-500"></i>
+            <span class="text-xs font-bold text-slate-800">State Projections (Tap any state to filter PUs below)</span>
+          </div>
+          <button onclick="exportStateProjectionsCSV()" class="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Export CSV</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto max-h-64">
+          <table class="w-full text-left text-xs border-collapse min-w-[650px]">
+            <thead class="bg-slate-100 sticky top-0 z-10 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
+              <tr>
+                <th class="py-2 px-3">State</th>
+                <th class="py-2 px-3">Zone</th>
+                <th class="py-2 px-3 text-right">2023 Baseline</th>
+                <th class="py-2 px-3 text-center">Sample PUs</th>
+                <th class="py-2 px-3 text-right">Sample Delta</th>
+                <th class="py-2 px-3 text-right">Growth %</th>
+                <th class="py-2 px-3 text-right">Projected 2027</th>
+                <th class="py-2 px-3 text-right">Projected Surplus</th>
+                <th class="py-2 px-3 text-center">Risk Level</th>
+              </tr>
+            </thead>
+            <tbody id="state-table-body" class="divide-y divide-slate-100 text-slate-700">
+              <!-- Populated via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Polling Unit Forensic Investigation Explorer -->
+    <section class="space-y-3 sm:space-y-4">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5">
+        <div>
+          <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center space-x-2">
+            <i data-lucide="search-check" class="w-4 h-4 text-blue-600"></i>
+            <span>Polling Unit Audit Register</span>
+          </h2>
+          <p class="text-[11px] sm:text-xs text-slate-500">
+            Search any polling unit by name or code to inspect voter growth and fraud flags
+          </p>
+        </div>
+
+        <!-- Filter Tabs (Horizontal scroll on mobile) -->
+        <div class="w-full md:w-auto overflow-x-auto no-scrollbar py-1">
+          <div class="flex items-center space-x-1.5 p-1 bg-white rounded-xl border border-slate-200 text-xs shadow-xs min-w-max">
+            <button onclick="setFilterFlag('ALL')" id="tab-ALL" class="filter-tab px-3 py-1.5 rounded-lg font-bold bg-slate-200 text-slate-900 shadow-xs transition">
+              All (<span id="count-tab-all">0</span>)
+            </button>
+            <button onclick="setFilterFlag('FLAGGED_MANIPULATION')" id="tab-FLAGGED_MANIPULATION" class="filter-tab px-3 py-1.5 rounded-lg font-semibold text-rose-700 hover:bg-rose-50 transition">
+              🚨 Flagged (<span id="count-tab-flagged">0</span>)
+            </button>
+            <button onclick="setFilterFlag('CRITICAL_MANIPULATION')" id="tab-CRITICAL_MANIPULATION" class="filter-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-rose-700 transition">
+              🔴 Critical (<span id="count-tab-critical">0</span>)
+            </button>
+            <button onclick="setFilterFlag('CONTEXTUAL_SURGE')" id="tab-CONTEXTUAL_SURGE" class="filter-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-blue-700 transition">
+              ℹ️ Explained (<span id="count-tab-contextual">0</span>)
+            </button>
+            <button onclick="setFilterFlag('VOTER_DRAIN')" id="tab-VOTER_DRAIN" class="filter-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-purple-700 transition">
+              📉 Drain (<span id="count-tab-drain">0</span>)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & Search Bar (Mobile Responsive Stack) -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="pu-search-input" oninput="handleSearch()" placeholder="Search Polling Unit Name, Code, LGA, Ward..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition">
+          <button onclick="clearSearch()" id="btn-clear-search" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            <i data-lucide="x-circle" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <!-- State Filter Dropdown -->
+          <select id="pu-state-select" onchange="handleStateSelect()" class="flex-1 md:flex-none bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500 font-semibold">
+            <option value="ALL">All States (37)</option>
+            <!-- Filled via JS -->
+          </select>
+
+          <!-- Sort Selector -->
+          <select id="pu-sort-select" onchange="handleSortSelect()" class="flex-1 md:flex-none bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500 font-medium">
+            <option value="discrepancy_desc">Surplus (Highest)</option>
+            <option value="diff_desc">Voters Added</option>
+            <option value="pct_desc">% Increase</option>
+            <option value="count27_desc">2027 Total</option>
+            <option value="diff_asc">Voters Lost</option>
+          </select>
+
+          <!-- Reset Filter Button -->
+          <button onclick="resetFilters()" class="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition" title="Reset Filters">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Polling Units Container: Responsive Switcher -->
+      <div>
+        <!-- MOBILE VIEW: Touch-Friendly Card List (Visible on < md) -->
+        <div class="block md:hidden space-y-2.5" id="pu-mobile-cards-container">
+          <!-- Cards injected via JavaScript -->
+        </div>
+
+        <!-- DESKTOP VIEW: Full Data Table (Visible on >= md) -->
+        <div class="hidden md:block bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+          <div class="overflow-x-auto min-h-[350px]">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-100 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
+                <tr>
+                  <th class="py-3 px-3">PU Code</th>
+                  <th class="py-3 px-3">Polling Unit Name</th>
+                  <th class="py-3 px-3">State / LGA</th>
+                  <th class="py-3 px-3 text-right">2023</th>
+                  <th class="py-3 px-3 text-right">2027</th>
+                  <th class="py-3 px-3 text-right">Delta</th>
+                  <th class="py-3 px-3 text-right">% Chg</th>
+                  <th class="py-3 px-3">Key Event Justification</th>
+                  <th class="py-3 px-3 text-right">Discrepancy</th>
+                  <th class="py-3 px-3 text-center">Audit Verdict</th>
+                  <th class="py-3 px-3 text-center">Inspect</th>
+                </tr>
+              </thead>
+              <tbody id="pu-table-body" class="divide-y divide-slate-100 text-slate-700">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Table / Cards Footer & Pagination -->
+        <div class="mt-3 p-3 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2 shadow-xs">
+          <div id="pu-table-pagination-info">Showing 0 of 0 polling units</div>
+          <div class="flex items-center space-x-2">
+            <button onclick="prevPage()" id="btn-prev-page" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-200 text-slate-700 font-bold shadow-xs">
+              Previous
+            </button>
+            <span id="pu-table-page-number" class="text-slate-800 font-bold px-2">1</span>
+            <button onclick="nextPage()" id="btn-next-page" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-200 text-slate-700 font-bold shadow-xs">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Polling Unit Forensic Modal / Mobile Bottom Drawer -->
+  <div id="pu-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col animate-in fade-in slide-in-from-bottom-6 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-200 flex items-start justify-between bg-slate-50 sticky top-0 z-10">
+        <div class="space-y-1 pr-2">
+          <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200" id="modal-pu-code">PU CODE</span>
+            <span id="modal-verdict-badge"></span>
+          </div>
+          <h3 class="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-snug" id="modal-pu-name">Polling Unit Name</h3>
+          <p class="text-xs text-slate-500 font-medium" id="modal-pu-location">State / LGA / Ward</p>
+        </div>
+        <button onclick="closePUModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition" title="Close">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-5 space-y-4 text-xs sm:text-sm">
+        <!-- 2023 vs 2027 Voter Count Comparison Meter -->
+        <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-2.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-600 font-bold uppercase tracking-wider text-[10px]">Voter Count Progression</span>
+            <span class="font-extrabold font-mono text-xs sm:text-sm" id="modal-delta-badge">+0 voters</span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] uppercase font-bold text-slate-500">2023 Baseline</span>
+              <div class="text-xl sm:text-2xl font-black text-slate-800 mt-0.5" id="modal-c23-val">0</div>
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] uppercase font-bold text-amber-600">2027 Preliminary</span>
+              <div class="text-xl sm:text-2xl font-black text-amber-700 mt-0.5" id="modal-c27-val">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plain English Audit Explanation -->
+        <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-2.5">
+          <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide flex items-center space-x-1.5">
+            <i data-lucide="microscope" class="w-4 h-4 text-blue-600"></i>
+            <span>Forensic Assessment & Discrepancy Breakdown</span>
+          </h4>
+
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between py-1 border-b border-slate-200">
+              <span class="text-slate-600">Expected Max (12% baseline + buffer):</span>
+              <span class="font-mono font-bold text-slate-900" id="modal-expected-max">0 voters</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-200">
+              <span class="text-slate-600">Event Verification:</span>
+              <span class="font-semibold text-blue-700 text-right max-w-xs" id="modal-event-status">No Key Event</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-200">
+              <span class="text-slate-600">Unexplained Artificial Surplus:</span>
+              <span class="font-mono font-extrabold text-rose-600" id="modal-discrepancy-val">0 voters</span>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1" id="modal-reason-box">
+            <div class="font-bold flex items-center space-x-1 text-rose-950">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-rose-600"></i>
+              <span>Plain-English Audit Finding:</span>
+            </div>
+            <p id="modal-reason-text" class="text-slate-700 leading-relaxed"></p>
+          </div>
+        </div>
+
+        <!-- Verification & Share Actions -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+          <a id="modal-inec-link" href="#" target="_blank" class="flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold transition">
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Verify on Official INEC Portal</span>
+          </a>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="shareOnWhatsApp()" class="flex-1 sm:flex-none flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <span>Share Finding</span>
+            </button>
+            <button onclick="copyModalDossier()" class="flex-1 sm:flex-none flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="modal-copy-btn-text">Copy Dossier</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-4 mt-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+      Nigeria 2027 Election Volunteer Citizen Audit • Polling Unit Voter Verification & Anomaly Detection System
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // Global Application State
+    let allRecords = [];
+    let stateProjections = [];
+    let stateChartInstance = null;
+    let selectedRecord = null;
+
+    // Simulation Parameters
+    let simParams = {
+      organicRate: 0.12,
+      urbanMultiplier: 0.35,
+      suspiciousThreshold: 50,
+      megaPULimit: 1000
+    };
+
+    // Table Filters & Pagination
+    let currentFilterFlag = 'ALL';
+    let currentFilterState = 'ALL';
+    let currentSearchTerm = '';
+    let currentSort = 'discrepancy_desc';
+    let currentPage = 1;
+    const pageSize = 25;
+
+    // Initialize on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Synchronous initial render if embedded data is present
+      if (window.INITIAL_VOTER_RECORDS && window.INITIAL_VOTER_RECORDS.length > 0) {
+        allRecords = evaluateRecordsClient(window.INITIAL_VOTER_RECORDS, simParams);
+        stateProjections = computeStateProjectionsClient(allRecords);
+        renderAll();
+      }
+      lucide.createIcons();
+      loadData();
+    });
+
+    async function loadData() {
+      try {
+        let url = `/api/records?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`;
+        const recordsRes = await fetch(url);
+        
+        if (recordsRes.ok) {
+          const recData = await recordsRes.json();
+          allRecords = recData.records || [];
+          
+          const statesRes = await fetch(`/api/states?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`);
+          if (statesRes.ok) {
+            stateProjections = await statesRes.json();
+          }
+          renderAll();
+        } else {
+          await loadLocalFallback();
+        }
+      } catch (err) {
+        await loadLocalFallback();
+      }
+    }
+
+    async function loadLocalFallback() {
+      if (window.INITIAL_VOTER_RECORDS && window.INITIAL_VOTER_RECORDS.length > 0) {
+        allRecords = evaluateRecordsClient(window.INITIAL_VOTER_RECORDS, simParams);
+        stateProjections = computeStateProjectionsClient(allRecords);
+        renderAll();
+        return;
+      }
+      try {
+        const res = await fetch('data/voter_records.json');
+        if (res.ok) {
+          const raw = await res.json();
+          allRecords = evaluateRecordsClient(raw, simParams);
+          stateProjections = computeStateProjectionsClient(allRecords);
+          renderAll();
+        }
+      } catch (e) {}
+    }
+
+    function evaluateRecordsClient(records, options) {
+      const URBAN_LGAS = new Set(['IBEJU-LEKKI', 'ETI-OSA', 'ALIMOSHO', 'IKEJA', 'KOSOFE', 'AGEGE', 'ADO ODO-OTA', 'IFO', 'KARU', 'MUNICIPAL', 'BWARI', 'OBIO/AKPOR', 'IKWERRE', 'TARAUNI', 'NASSARAWA']);
+      const IDP_ZONES = new Set(['GUSAU', 'SHIRORO', 'GUMA', 'KONDUGA', 'BAMA']);
+      const organicRate = options.organicRate || 0.12;
+      const urbanMultiplier = options.urbanMultiplier || 0.35;
+      const megaPULimit = options.megaPULimit || 1000;
+      const suspiciousThreshold = options.suspiciousThreshold || 50;
+
+      return records.map(r => {
+        const c23 = Number(r.count_2023) || 0;
+        const c27 = Number(r.count_2027) || 0;
+        const delta = Number(r.difference) ?? (c27 - c23);
+        const puName = (r.pu_name || '').toUpperCase();
+        const lga = (r.lga || '').toUpperCase();
+
+        let eventDetected = null;
+        let allowableGrowth = organicRate;
+        let allowableBuffer = 30;
+
+        if (c23 === 0) {
+          if (c27 <= 850) {
+            eventDetected = { type: 'ZERO_BASELINE_ACTIVATION', title: 'Zero-Baseline Activation', description: 'Newly activated unit in 2023 unbundling.' };
+            allowableGrowth = 999;
+            allowableBuffer = 850;
+          } else {
+            eventDetected = { type: 'ZERO_BASELINE_OVERFLOW', title: 'Zero-Baseline Overflow', description: 'Exceeded standard PU capacity.' };
+            allowableBuffer = 750;
+          }
+        } else if (puName.includes('CAMPUS') || puName.includes('UNIVERSITY') || puName.includes('POLYTECHNIC') || puName.includes('COLLEGE')) {
+          eventDetected = { type: 'CAMPUS_HUB', title: 'Campus Registration Hub', description: 'Student population mobilization.' };
+          allowableGrowth = Math.max(allowableGrowth, 0.40);
+          allowableBuffer = 120;
+        } else if (URBAN_LGAS.has(lga)) {
+          eventDetected = { type: 'URBAN_CORRIDOR', title: 'Metropolitan Influx Corridor', description: 'Rapid suburban expansion.' };
+          allowableGrowth = Math.max(allowableGrowth, urbanMultiplier);
+          allowableBuffer = 100;
+        } else if (IDP_ZONES.has(lga)) {
+          eventDetected = { type: 'DISPLACEMENT_CLUSTER', title: 'Displacement / IDP Center', description: 'Security displacement consolidation.' };
+          allowableGrowth = Math.max(allowableGrowth, 0.45);
+          allowableBuffer = 150;
+        }
+
+        const expectedMax = c23 === 0 ? allowableBuffer : Math.round(c23 * (1 + allowableGrowth) + allowableBuffer);
+        const discrepancy = Math.max(0, c27 - expectedMax);
+        const pctGrowth = c23 > 0 ? ((c27 - c23) / c23) * 100 : (c27 > 0 ? 100 : 0);
+
+        let flag = 'NORMAL';
+        let flagLabel = 'Normal Baseline';
+        let severity = 'LOW';
+        let forensicReason = 'Voter count aligns with natural population growth.';
+
+        if (delta < -25) {
+          flag = 'VOTER_DRAIN';
+          flagLabel = 'Voter Roll Shrinkage';
+          severity = Math.abs(delta) > 50 ? 'HIGH' : 'MEDIUM';
+          forensicReason = `Noticeable drop of ${Math.abs(delta)} voters. Worth checking for wrongful purge.`;
+        } else if (c27 >= megaPULimit && c27 > c23 * 1.3) {
+          flag = 'CRITICAL_MANIPULATION';
+          flagLabel = '🚨 Critical: Mega-PU Cap Breach';
+          severity = 'CRITICAL';
+          forensicReason = `Register surged to ${c27} voters without unbundling, exceeding statutory ceiling.`;
+        } else if (discrepancy >= 200 || (c23 < 20 && c27 > 250 && !eventDetected)) {
+          flag = 'CRITICAL_MANIPULATION';
+          flagLabel = '🚨 Critical Register Manipulation';
+          severity = 'CRITICAL';
+          forensicReason = `Extreme surge (+${delta} voters, +${pctGrowth.toFixed(1)}%) with no demographic event. ${discrepancy} excess artificial voters estimated.`;
+        } else if (discrepancy >= suspiciousThreshold) {
+          if (eventDetected) {
+            flag = 'CONTEXTUAL_SURGE';
+            flagLabel = 'ℹ️ Verified Real-World Event';
+            severity = 'MEDIUM';
+            forensicReason = `Surge supported by ${eventDetected.title}.`;
+          } else {
+            flag = 'SUSPICIOUS_MANIPULATION';
+            flagLabel = '⚠️ Flagged: Suspected Manipulation';
+            severity = 'HIGH';
+            forensicReason = `Abnormal increase (+${delta} voters, +${pctGrowth.toFixed(1)}%) with no justifiable event. ${discrepancy} excess voters.`;
+          }
+        }
+
+        return {
+          ...r,
+          c23,
+          c27,
+          delta,
+          pctGrowth: Number(pctGrowth.toFixed(1)),
+          expectedMax,
+          discrepancy,
+          eventDetected,
+          flag,
+          flagLabel,
+          severity,
+          forensicReason
+        };
+      });
+    }
+
+    const OFFICIAL_STATE_2023_REGISTER = {
+      'ABIA': 2120808, 'ADAMAWA': 2196566, 'AKWA IBOM': 2357418, 'ANAMBRA': 2656437,
+      'BAUCHI': 2749268, 'BAYELSA': 1056862, 'BENUE': 2777727, 'BORNO': 2513281,
+      'CROSS RIVER': 1766466, 'DELTA': 3225243, 'EBONYI': 1597646, 'EDO': 2501081,
+      'EKITI': 987647, 'ENUGU': 2112793, 'FCT': 1570307, 'GOMBE': 1575794,
+      'IMO': 2419925, 'JIGAWA': 2351298, 'KADUNA': 4335208, 'KANO': 5921370,
+      'KATSINA': 3516719, 'KEBBI': 2032041, 'KOGI': 1932654, 'KWARA': 1695927,
+      'LAGOS': 7060198, 'NASARAWA': 1899244, 'NIGER': 2698344, 'OGUN': 2688305,
+      'ONDO': 1991344, 'OSUN': 1954800, 'OYO': 3276675, 'PLATEAU': 2789528,
+      'RIVERS': 3537190, 'SOKOTO': 2172056, 'TARABA': 2022374, 'YOBE': 1485146,
+      'ZAMFARA': 1926870
+    };
+
+    const OFFICIAL_STATE_ZONES = {
+      'ABIA': 'South East', 'ANAMBRA': 'South East', 'EBONYI': 'South East', 'ENUGU': 'South East', 'IMO': 'South East',
+      'ADAMAWA': 'North East', 'BAUCHI': 'North East', 'BORNO': 'North East', 'GOMBE': 'North East', 'TARABA': 'North East', 'YOBE': 'North East',
+      'BENUE': 'North Central', 'FCT': 'North Central', 'KOGI': 'North Central', 'KWARA': 'North Central', 'NASARAWA': 'North Central', 'NIGER': 'North Central', 'PLATEAU': 'North Central',
+      'JIGAWA': 'North West', 'KADUNA': 'North West', 'KANO': 'North West', 'KATSINA': 'North West', 'KEBBI': 'North West', 'SOKOTO': 'North West', 'ZAMFARA': 'North West',
+      'EKITI': 'South West', 'LAGOS': 'South West', 'OGUN': 'South West', 'ONDO': 'South West', 'OSUN': 'South West', 'OYO': 'South West',
+      'AKWA IBOM': 'South South', 'BAYELSA': 'South South', 'CROSS RIVER': 'South South', 'DELTA': 'South South', 'EDO': 'South South', 'RIVERS': 'South South'
+    };
+
+    function computeStateProjectionsClient(evaluated) {
+      const byState = {};
+      for (const r of evaluated) {
+        const s = r.state;
+        if (!byState[s]) {
+          byState[s] = {
+            state: s,
+            zone: OFFICIAL_STATE_ZONES[s] || 'National',
+            official2023Register: OFFICIAL_STATE_2023_REGISTER[s] || 2000000,
+            sampleCount: 0,
+            sample2023Total: 0,
+            sample2027Total: 0,
+            sampleNetDelta: 0,
+            flaggedCount: 0,
+            criticalCount: 0,
+            drainCount: 0,
+            totalDiscrepancy: 0
+          };
+        }
+        const bs = byState[s];
+        bs.sampleCount++;
+        bs.sample2023Total += r.c23;
+        bs.sample2027Total += r.c27;
+        bs.sampleNetDelta += r.delta;
+        bs.totalDiscrepancy += r.discrepancy;
+        if (r.flag.includes('MANIPULATION')) bs.flaggedCount++;
+        if (r.severity === 'CRITICAL') bs.criticalCount++;
+        if (r.flag === 'VOTER_DRAIN') bs.drainCount++;
+      }
+
+      return Object.values(byState).map(bs => {
+        const growth = bs.sample2023Total > 0 ? (bs.sampleNetDelta / bs.sample2023Total) : 0;
+        const projected2027Register = Math.round(bs.official2023Register * (1 + growth));
+        const demographicUpperCeiling = Math.round(bs.official2023Register * 1.12);
+        const projectedExcessVoters = Math.max(0, projected2027Register - demographicUpperCeiling);
+        const flagRate = bs.sampleCount > 0 ? (bs.flaggedCount / bs.sampleCount) * 100 : 0;
+        let riskLevel = flagRate >= 20 || bs.criticalCount >= 3 ? 'CRITICAL' : flagRate >= 10 ? 'HIGH' : flagRate > 0 ? 'MODERATE' : 'LOW';
+
+        return {
+          state: bs.state,
+          zone: bs.zone,
+          official2023Register: bs.official2023Register,
+          sampleCount: bs.sampleCount,
+          sample2023Total: bs.sample2023Total,
+          sample2027Total: bs.sample2027Total,
+          sampleNetDelta: bs.sampleNetDelta,
+          sampleGrowthRate: Number((growth * 100).toFixed(2)),
+          projected2027Register,
+          demographicUpperCeiling,
+          projectedExcessVoters,
+          flaggedCount: bs.flaggedCount,
+          criticalCount: bs.criticalCount,
+          drainCount: bs.drainCount,
+          flagRate: Number(flagRate.toFixed(1)),
+          totalDiscrepancy: bs.totalDiscrepancy,
+          riskLevel
+        };
+      }).sort((a,b) => b.projectedExcessVoters - a.projectedExcessVoters);
+    }
+
+    function renderAll() {
+      renderKPIs();
+      populateStateDropdown();
+      renderStateChart();
+      renderStateTable();
+      renderHighRiskWatchlist();
+      renderPUTable();
+      lucide.createIcons();
+    }
+
+    function renderKPIs() {
+      const totalPUs = allRecords.length;
+      const total23 = allRecords.reduce((sum, r) => sum + r.c23, 0);
+      const total27 = allRecords.reduce((sum, r) => sum + r.c27, 0);
+      const netDelta = total27 - total23;
+      const netPct = total23 > 0 ? ((netDelta / total23) * 100).toFixed(1) : 0;
+      
+      const flagged = allRecords.filter(r => r.flag.includes('MANIPULATION'));
+      const critical = allRecords.filter(r => r.severity === 'CRITICAL');
+      const drain = allRecords.filter(r => r.flag === 'VOTER_DRAIN');
+      const contextual = allRecords.filter(r => r.flag === 'CONTEXTUAL_SURGE' || r.flag === 'EXPLAINED_EVENT');
+      const totalSurplus = allRecords.reduce((sum, r) => sum + r.discrepancy, 0);
+
+      document.getElementById('kpi-audited-units').textContent = totalPUs.toLocaleString();
+      document.getElementById('kpi-2023-voters').textContent = total23.toLocaleString();
+      document.getElementById('kpi-2027-voters').textContent = total27.toLocaleString();
+      document.getElementById('kpi-net-growth').textContent = `+${netDelta.toLocaleString()} (+${netPct}%)`;
+      document.getElementById('kpi-flagged-count').textContent = flagged.length.toLocaleString();
+      document.getElementById('kpi-flagged-pct').textContent = totalPUs > 0 ? `${((flagged.length / totalPUs) * 100).toFixed(1)}%` : '0%';
+      document.getElementById('kpi-critical-count').textContent = critical.length.toLocaleString();
+      document.getElementById('kpi-surplus-voters').textContent = `+${totalSurplus.toLocaleString()}`;
+      document.getElementById('status-live-counter').textContent = `${totalPUs.toLocaleString()} PUs Verified`;
+
+      // Update Tab Counter Badges
+      document.getElementById('count-tab-all').textContent = totalPUs.toLocaleString();
+      document.getElementById('count-tab-flagged').textContent = flagged.length.toLocaleString();
+      document.getElementById('count-tab-critical').textContent = critical.length.toLocaleString();
+      document.getElementById('count-tab-contextual').textContent = contextual.length.toLocaleString();
+      document.getElementById('count-tab-drain').textContent = drain.length.toLocaleString();
+    }
+
+    function populateStateDropdown() {
+      const select = document.getElementById('pu-state-select');
+      const current = select.value;
+      const states = [...new Set(allRecords.map(r => r.state))].sort();
+      
+      select.innerHTML = '<option value="ALL">All States (37)</option>';
+      for (const s of states) {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        if (s === current) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function renderStateChart() {
+      const canvas = document.getElementById('stateProjectionChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const top10 = stateProjections.slice(0, 10);
+      const labels = top10.map(s => s.state);
+      const data2023 = top10.map(s => s.sample2023Total);
+      const data2027 = top10.map(s => s.sample2027Total);
+      const dataExpected = top10.map(s => Math.round(s.sample2023Total * (1 + simParams.organicRate)));
+
+      if (stateChartInstance) {
+        stateChartInstance.destroy();
+      }
+
+      stateChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '2023 Sample',
+              data: data2023,
+              backgroundColor: '#10b981',
+              borderRadius: 4
+            },
+            {
+              label: '2027 Audited',
+              data: data2027,
+              backgroundColor: '#f59e0b',
+              borderRadius: 4
+            },
+            {
+              label: 'Expected Max (12%)',
+              data: dataExpected,
+              backgroundColor: '#3b82f6',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 300 },
+          plugins: {
+            legend: {
+              labels: { color: '#475569', font: { size: 10, weight: 'bold' } }
+            },
+            tooltip: {
+              backgroundColor: '#1e293b',
+              titleColor: '#ffffff',
+              bodyColor: '#e2e8f0',
+              padding: 10,
+              borderRadius: 8
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#64748b', font: { size: 9, weight: 'bold' } },
+              grid: { color: '#f1f5f9' }
+            },
+            y: {
+              ticks: { color: '#64748b', font: { size: 9 } },
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        }
+      });
+    }
+
+    function renderHighRiskWatchlist() {
+      const container = document.getElementById('high-risk-states-list');
+      container.innerHTML = '';
+
+      const highRisk = stateProjections.filter(s => s.riskLevel === 'CRITICAL' || s.riskLevel === 'HIGH').slice(0, 5);
+      document.getElementById('critical-states-count').textContent = `${stateProjections.filter(s => s.riskLevel === 'CRITICAL').length} Critical`;
+
+      if (highRisk.length === 0) {
+        container.innerHTML = '<div class="text-xs text-slate-400 py-3 text-center">No high risk states flagged.</div>';
+        return;
+      }
+
+      for (const s of highRisk) {
+        const item = document.createElement('div');
+        item.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 cursor-pointer transition flex items-center justify-between shadow-xs';
+        item.onclick = () => filterByState(s.state);
+
+        const badgeColor = s.riskLevel === 'CRITICAL' ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold' : 'bg-amber-100 text-amber-800 border-amber-300 font-semibold';
+
+        item.innerHTML = `
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="font-bold text-xs text-slate-900">${s.state}</span>
+              <span class="px-1.5 py-0.2 text-[9px] uppercase rounded border ${badgeColor}">${s.riskLevel}</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-0.5">
+              Growth: <span class="text-amber-700 font-bold">+${s.sampleGrowthRate}%</span> | Flagged: <span class="text-rose-700 font-bold">${s.flaggedCount} PUs</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Surplus</span>
+            <span class="font-mono text-xs font-bold text-rose-700">+${s.totalDiscrepancy.toLocaleString()}</span>
+          </div>
+        `;
+        container.appendChild(item);
+      }
+    }
+
+    function renderStateTable() {
+      const tbody = document.getElementById('state-table-body');
+      tbody.innerHTML = '';
+
+      for (const s of stateProjections) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 cursor-pointer transition';
+        tr.onclick = () => filterByState(s.state);
+
+        let riskBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">Low</span>`;
+        if (s.riskLevel === 'CRITICAL') {
+          riskBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-rose-50 text-rose-700 border border-rose-300">🚨 Critical</span>`;
+        } else if (s.riskLevel === 'HIGH') {
+          riskBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-50 text-amber-800 border border-amber-300">⚠️ High</span>`;
+        } else if (s.riskLevel === 'MODERATE') {
+          riskBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-yellow-50 text-yellow-800 border border-yellow-200">Moderate</span>`;
+        }
+
+        const growthColor = s.sampleGrowthRate > 20 ? 'text-rose-700 font-bold' : s.sampleGrowthRate > 12 ? 'text-amber-700 font-bold' : 'text-slate-700';
+
+        tr.innerHTML = `
+          <td class="py-2 px-3 font-bold text-slate-900">${s.state}</td>
+          <td class="py-2 px-3 text-slate-500">${s.zone}</td>
+          <td class="py-2 px-3 text-right font-mono text-slate-700">${s.official2023Register.toLocaleString()}</td>
+          <td class="py-2 px-3 text-center font-bold text-slate-800">${s.sampleCount}</td>
+          <td class="py-2 px-3 text-right font-mono font-semibold ${s.sampleNetDelta >= 0 ? 'text-emerald-700' : 'text-purple-700'}">
+            ${s.sampleNetDelta > 0 ? '+' : ''}${s.sampleNetDelta.toLocaleString()}
+          </td>
+          <td class="py-2 px-3 text-right font-mono ${growthColor}">+${s.sampleGrowthRate}%</td>
+          <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">${s.projected2027Register.toLocaleString()}</td>
+          <td class="py-2 px-3 text-right font-mono font-bold ${s.projectedExcessVoters > 0 ? 'text-rose-700' : 'text-slate-400'}">
+            ${s.projectedExcessVoters > 0 ? '+' + s.projectedExcessVoters.toLocaleString() : '0'}
+          </td>
+          <td class="py-2 px-3 text-center">${riskBadge}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function getFilteredRecords() {
+      let filtered = allRecords;
+
+      // Filter by State
+      if (currentFilterState !== 'ALL') {
+        filtered = filtered.filter(r => r.state === currentFilterState);
+      }
+
+      // Filter by Flag Category
+      if (currentFilterFlag === 'FLAGGED_MANIPULATION') {
+        filtered = filtered.filter(r => r.flag.includes('MANIPULATION'));
+      } else if (currentFilterFlag === 'CRITICAL_MANIPULATION') {
+        filtered = filtered.filter(r => r.severity === 'CRITICAL');
+      } else if (currentFilterFlag === 'CONTEXTUAL_SURGE') {
+        filtered = filtered.filter(r => r.flag === 'CONTEXTUAL_SURGE' || r.flag === 'EXPLAINED_EVENT');
+      } else if (currentFilterFlag === 'VOTER_DRAIN') {
+        filtered = filtered.filter(r => r.flag === 'VOTER_DRAIN');
+      }
+
+      // Filter by Search Query
+      if (currentSearchTerm) {
+        const q = currentSearchTerm.toLowerCase();
+        filtered = filtered.filter(r =>
+          (r.pu_name && r.pu_name.toLowerCase().includes(q)) ||
+          (r.pu_code && r.pu_code.toLowerCase().includes(q)) ||
+          (r.lga && r.lga.toLowerCase().includes(q)) ||
+          (r.ward && r.ward.toLowerCase().includes(q)) ||
+          (r.state && r.state.toLowerCase().includes(q))
+        );
+      }
+
+      // Sort
+      if (currentSort === 'discrepancy_desc') {
+        filtered.sort((a,b) => b.discrepancy - a.discrepancy);
+      } else if (currentSort === 'diff_desc') {
+        filtered.sort((a,b) => b.delta - a.delta);
+      } else if (currentSort === 'pct_desc') {
+        filtered.sort((a,b) => b.pctGrowth - a.pctGrowth);
+      } else if (currentSort === 'count27_desc') {
+        filtered.sort((a,b) => b.c27 - a.c27);
+      } else if (currentSort === 'diff_asc') {
+        filtered.sort((a,b) => a.delta - b.delta);
+      }
+
+      return filtered;
+    }
+
+    function renderPUTable() {
+      const desktopTbody = document.getElementById('pu-table-body');
+      const mobileContainer = document.getElementById('pu-mobile-cards-container');
+      
+      desktopTbody.innerHTML = '';
+      mobileContainer.innerHTML = '';
+
+      const filtered = getFilteredRecords();
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const start = (currentPage - 1) * pageSize;
+      const paginated = filtered.slice(start, start + pageSize);
+
+      document.getElementById('pu-table-pagination-info').textContent =
+        total > 0 ? `Showing ${start + 1} to ${Math.min(start + pageSize, total)} of ${total.toLocaleString()} units` : 'No matching polling units';
+      document.getElementById('pu-table-page-number').textContent = `${currentPage} / ${totalPages}`;
+      document.getElementById('btn-prev-page').disabled = currentPage <= 1;
+      document.getElementById('btn-next-page').disabled = currentPage >= totalPages;
+
+      if (paginated.length === 0) {
+        desktopTbody.innerHTML = `<tr><td colspan="11" class="py-8 text-center text-slate-400">No polling units match your search.</td></tr>`;
+        mobileContainer.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">No polling units match your filter.</div>`;
+        return;
+      }
+
+      for (const r of paginated) {
+        // Build badges
+        let verdictBadge = '';
+        let cardBorder = 'border-slate-200';
+        if (r.severity === 'CRITICAL') {
+          verdictBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300">🚨 Critical Manipulation</span>`;
+          cardBorder = 'border-rose-300 bg-rose-50/20';
+        } else if (r.flag === 'SUSPICIOUS_MANIPULATION') {
+          verdictBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800 border border-amber-300">⚠️ Flagged Manipulation</span>`;
+          cardBorder = 'border-amber-300';
+        } else if (r.flag === 'CONTEXTUAL_SURGE') {
+          verdictBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-blue-100 text-blue-800 border border-blue-200">ℹ️ Event Justified</span>`;
+        } else if (r.flag === 'VOTER_DRAIN') {
+          verdictBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-800 border border-purple-200">📉 Voter Drain</span>`;
+        } else {
+          verdictBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-medium uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">✅ Normal Baseline</span>`;
+        }
+
+        const deltaColor = r.delta > 0 ? 'text-amber-700 font-semibold' : (r.delta < 0 ? 'text-purple-700 font-semibold' : 'text-slate-500');
+        const eventText = r.eventDetected ? `<span class="text-blue-700 font-semibold">${r.eventDetected.title}</span>` : `<span class="text-slate-400">No Key Event</span>`;
+
+        // 1. MOBILE CARD VIEW
+        const card = document.createElement('div');
+        card.className = `p-3.5 bg-white border ${cardBorder} rounded-2xl shadow-xs space-y-2.5`;
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
+                <span class="font-mono text-[11px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">${r.pu_code}</span>
+                <span class="text-[10px] text-slate-500 font-medium">${r.state} • ${r.lga}</span>
+              </div>
+              <h4 class="font-bold text-xs sm:text-sm text-slate-900 mt-1 leading-snug">${r.pu_name}</h4>
+            </div>
+            <button onclick="openPUModal('${r.pu_code}')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex-shrink-0" title="Inspect">
+              <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">2023 ➔ 2027</span>
+              <span class="font-mono text-slate-700 font-bold">${r.c23} ➔ <strong class="text-slate-900">${r.c27}</strong></span>
+            </div>
+            <div class="text-center">
+              <span class="text-[10px] text-slate-400 block font-semibold">Change</span>
+              <span class="font-mono font-bold ${deltaColor}">${r.delta > 0 ? '+' : ''}${r.delta} (${r.pctGrowth}%)</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] text-slate-400 block font-semibold">Surplus</span>
+              <span class="font-mono font-black ${r.discrepancy > 0 ? 'text-rose-600' : 'text-slate-400'}">${r.discrepancy > 0 ? '+' + r.discrepancy : '0'}</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <div>${verdictBadge}</div>
+            <button onclick="openPUModal('${r.pu_code}')" class="text-xs text-blue-600 font-bold hover:underline flex items-center space-x-1">
+              <span>View Audit Details</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        mobileContainer.appendChild(card);
+
+        // 2. DESKTOP TABLE VIEW
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-mono text-[11px] text-blue-700 font-bold whitespace-nowrap">${r.pu_code}</td>
+          <td class="py-3 px-3 max-w-xs font-semibold text-slate-900 truncate" title="${r.pu_name}">${r.pu_name}</td>
+          <td class="py-3 px-3 whitespace-nowrap">
+            <span class="font-bold text-slate-800">${r.state}</span>
+            <span class="text-[10px] text-slate-500 block">${r.lga}</span>
+          </td>
+          <td class="py-3 px-3 text-right font-mono text-slate-600">${r.c23}</td>
+          <td class="py-3 px-3 text-right font-mono font-bold text-slate-900">${r.c27}</td>
+          <td class="py-3 px-3 text-right font-mono ${deltaColor}">${r.delta > 0 ? '+' : ''}${r.delta}</td>
+          <td class="py-3 px-3 text-right font-mono text-slate-600 font-medium">${r.pctGrowth}%</td>
+          <td class="py-3 px-3 text-xs">${eventText}</td>
+          <td class="py-3 px-3 text-right font-mono font-bold ${r.discrepancy > 0 ? 'text-rose-700' : 'text-slate-400'}">
+            ${r.discrepancy > 0 ? '+' + r.discrepancy : '0'}
+          </td>
+          <td class="py-3 px-3 text-center whitespace-nowrap">${verdictBadge}</td>
+          <td class="py-3 px-3 text-center">
+            <button onclick="openPUModal('${r.pu_code}')" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-200 transition" title="Inspect Details">
+              <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+        `;
+        desktopTbody.appendChild(tr);
+      }
+      lucide.createIcons();
+    }
+
+    // Modal Handling
+    function openPUModal(puCode) {
+      const record = allRecords.find(r => r.pu_code === puCode);
+      if (!record) return;
+      selectedRecord = record;
+
+      document.getElementById('modal-pu-code').textContent = record.pu_code;
+      document.getElementById('modal-pu-name').textContent = record.pu_name;
+      document.getElementById('modal-pu-location').textContent = `${record.state} • ${record.lga} • Ward: ${record.ward || 'N/A'}`;
+      document.getElementById('modal-c23-val').textContent = record.c23.toLocaleString();
+      document.getElementById('modal-c27-val').textContent = record.c27.toLocaleString();
+      document.getElementById('modal-delta-badge').textContent = `${record.delta > 0 ? '+' : ''}${record.delta} voters (${record.pctGrowth}%)`;
+      document.getElementById('modal-expected-max').textContent = `${record.expectedMax} voters`;
+      document.getElementById('modal-event-status').textContent = record.eventDetected ? `${record.eventDetected.title} (${record.eventDetected.description})` : 'No Verifiable Demographic Event Found';
+      document.getElementById('modal-discrepancy-val').textContent = record.discrepancy > 0 ? `+${record.discrepancy} excess artificial voters` : '0 (Within bounds)';
+      document.getElementById('modal-reason-text').textContent = record.forensicReason;
+
+      // Verdict Badge
+      const verdictEl = document.getElementById('modal-verdict-badge');
+      if (record.severity === 'CRITICAL') {
+        verdictEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300">🚨 Critical Manipulation</span>`;
+      } else if (record.flag === 'SUSPICIOUS_MANIPULATION') {
+        verdictEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800 border border-amber-300">⚠️ Flagged: Suspected Manipulation</span>`;
+      } else if (record.flag === 'CONTEXTUAL_SURGE') {
+        verdictEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-blue-100 text-blue-800 border border-blue-200">ℹ️ Event Justified</span>`;
+      } else if (record.flag === 'VOTER_DRAIN') {
+        verdictEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-800 border border-purple-200">📉 Voter Drain</span>`;
+      } else {
+        verdictEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">✅ Normal Baseline</span>`;
+      }
+
+      // INEC link
+      document.getElementById('modal-inec-link').href = `https://display.inecnigeria.org/find`;
+
+      document.getElementById('pu-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // prevent background scroll on mobile
+      lucide.createIcons();
+    }
+
+    function closePUModal() {
+      document.getElementById('pu-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function copyModalDossier() {
+      if (!selectedRecord) return;
+      const text = `INEC VOTER AUDIT FINDING:
+Polling Unit: ${selectedRecord.pu_name} (${selectedRecord.pu_code})
+Location: ${selectedRecord.state}, LGA: ${selectedRecord.lga}, Ward: ${selectedRecord.ward}
+2023 Baseline Voters: ${selectedRecord.c23}
+2027 Registered Voters: ${selectedRecord.c27}
+Growth: ${selectedRecord.delta > 0 ? '+' : ''}${selectedRecord.delta} (${selectedRecord.pctGrowth}%)
+Expected Maximum: ${selectedRecord.expectedMax} voters
+Unexplained Surplus: +${selectedRecord.discrepancy} voters
+Verdict: ${selectedRecord.flagLabel}
+Forensic Reason: ${selectedRecord.forensicReason}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = document.getElementById('modal-copy-btn-text');
+        btnText.textContent = 'Copied!';
+        setTimeout(() => { btnText.textContent = 'Copy Dossier'; }, 2000);
+      });
+    }
+
+    function shareOnWhatsApp() {
+      if (!selectedRecord) return;
+      const text = `🚨 *INEC Polling Unit Audit Alert*
+*PU:* ${selectedRecord.pu_name} (${selectedRecord.pu_code})
+*Location:* ${selectedRecord.state}, ${selectedRecord.lga}
+*2023 Voters:* ${selectedRecord.c23} ➔ *2027 Voters:* ${selectedRecord.c27}
+*Surge:* ${selectedRecord.delta > 0 ? '+' : ''}${selectedRecord.delta} (${selectedRecord.pctGrowth}%)
+*Audit Verdict:* ${selectedRecord.flagLabel}
+*Finding:* ${selectedRecord.forensicReason}`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // Toggle Help Guide
+    function toggleHelpGuide() {
+      const guide = document.getElementById('onboarding-guide-card');
+      guide.classList.toggle('hidden');
+    }
+
+    // Filter & Search Handlers
+    function setFilterFlag(flag) {
+      currentFilterFlag = flag;
+      currentPage = 1;
+
+      document.querySelectorAll('.filter-tab').forEach(b => {
+        b.className = 'filter-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition';
+      });
+      const activeBtn = document.getElementById(`tab-${flag}`);
+      if (activeBtn) {
+        activeBtn.className = 'filter-tab px-3 py-1.5 rounded-lg font-bold bg-slate-200 text-slate-900 shadow-xs transition';
+      }
+
+      renderPUTable();
+    }
+
+    function filterByState(state) {
+      document.getElementById('pu-state-select').value = state;
+      currentFilterState = state;
+      currentPage = 1;
+      renderPUTable();
+      document.getElementById('pu-search-input').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function handleStateSelect() {
+      currentFilterState = document.getElementById('pu-state-select').value;
+      currentPage = 1;
+      renderPUTable();
+    }
+
+    function handleSearch() {
+      currentSearchTerm = document.getElementById('pu-search-input').value;
+      const clearBtn = document.getElementById('btn-clear-search');
+      if (currentSearchTerm) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      currentPage = 1;
+      renderPUTable();
+    }
+
+    function clearSearch() {
+      document.getElementById('pu-search-input').value = '';
+      document.getElementById('btn-clear-search').classList.add('hidden');
+      currentSearchTerm = '';
+      currentPage = 1;
+      renderPUTable();
+    }
+
+    function handleSortSelect() {
+      currentSort = document.getElementById('pu-sort-select').value;
+      renderPUTable();
+    }
+
+    function resetFilters() {
+      currentFilterFlag = 'ALL';
+      currentFilterState = 'ALL';
+      currentSearchTerm = '';
+      currentSort = 'discrepancy_desc';
+      currentPage = 1;
+      document.getElementById('pu-search-input').value = '';
+      document.getElementById('btn-clear-search').classList.add('hidden');
+      document.getElementById('pu-state-select').value = 'ALL';
+      document.getElementById('pu-sort-select').value = 'discrepancy_desc';
+      setFilterFlag('ALL');
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPUTable();
+        window.scrollTo({ top: document.getElementById('pu-search-input').offsetTop - 80, behavior: 'smooth' });
+      }
+    }
+
+    function nextPage() {
+      currentPage++;
+      renderPUTable();
+      window.scrollTo({ top: document.getElementById('pu-search-input').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    // Simulation Drawer & Tuning
+    function toggleSimulationDrawer() {
+      const drawer = document.getElementById('simulation-drawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function updateSimParams() {
+      const organic = parseInt(document.getElementById('slider-organic-rate').value, 10);
+      const urban = parseInt(document.getElementById('slider-urban-rate').value, 10);
+      const susp = parseInt(document.getElementById('slider-suspicious-thresh').value, 10);
+      const mega = parseInt(document.getElementById('slider-mega-cap').value, 10);
+
+      document.getElementById('val-organic-rate').textContent = `${organic}%`;
+      document.getElementById('val-urban-rate').textContent = `${urban}%`;
+      document.getElementById('val-suspicious-thresh').textContent = `+${susp}`;
+      document.getElementById('val-mega-cap').textContent = mega.toLocaleString();
+
+      simParams.organicRate = organic / 100;
+      simParams.urbanMultiplier = urban / 100;
+      simParams.suspiciousThreshold = susp;
+      simParams.megaPULimit = mega;
+
+      allRecords = evaluateRecordsClient(allRecords, simParams);
+      stateProjections = computeStateProjectionsClient(allRecords);
+      renderAll();
+    }
+
+    // CSV Exports
+    function exportFlaggedCSV() {
+      const flagged = allRecords.filter(r => r.flag.includes('MANIPULATION'));
+      const header = ['pu_code', 'state', 'lga', 'ward', 'pu_name', 'count_2023', 'count_2027', 'difference', 'pct_growth', 'expected_max', 'discrepancy', 'key_event', 'flag', 'forensic_reason'];
+      const rows = flagged.map(r => [
+        `"${r.pu_code}"`,
+        `"${r.state}"`,
+        `"${r.lga}"`,
+        `"${r.ward}"`,
+        `"${(r.pu_name || '').replace(/"/g, '""')}"`,
+        r.c23,
+        r.c27,
+        r.delta,
+        `${r.pctGrowth}%`,
+        r.expectedMax,
+        r.discrepancy,
+        `"${r.eventDetected ? r.eventDetected.title : 'None'}"`,
+        `"${r.flag}"`,
+        `"${(r.forensicReason || '').replace(/"/g, '""')}"`
+      ]);
+      const csv = [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+      downloadFile(csv, 'inec_flagged_manipulation_records.csv', 'text/csv');
+    }
+
+    function exportStateProjectionsCSV() {
+      const header = ['state', 'zone', 'official_2023_register', 'sample_pu_count', 'sample_2023_total', 'sample_2027_total', 'sample_net_delta', 'sample_growth_rate_pct', 'projected_2027_register', 'demographic_upper_ceiling', 'projected_excess_voters', 'flagged_pu_count', 'flag_rate_pct', 'total_discrepancy', 'risk_level'];
+      const rows = stateProjections.map(s => [
+        `"${s.state}"`,
+        `"${s.zone}"`,
+        s.official2023Register,
+        s.sampleCount,
+        s.sample2023Total,
+        s.sample2027Total,
+        s.sampleNetDelta,
+        `${s.sampleGrowthRate}%`,
+        s.projected2027Register,
+        s.demographicUpperCeiling,
+        s.projectedExcessVoters,
+        s.flaggedCount,
+        `${s.flagRate}%`,
+        s.totalDiscrepancy,
+        `"${s.riskLevel}"`
+      ]);
+      const csv = [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+      downloadFile(csv, 'inec_state_projections_2027.csv', 'text/csv');
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function refreshData() {
+      const icon = document.getElementById('refresh-icon');
+      icon.classList.add('animate-spin');
+      loadData().then(() => {
+        setTimeout(() => icon.classList.remove('animate-spin'), 600);
+      });
+    }
+  </script>
+</body>
+</html>
