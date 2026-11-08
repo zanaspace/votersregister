@@ -117,6 +117,12 @@ All verified records are automatically synced and appended to:
 | Polling Unit Code | State | LGA | Polling Unit Name | 2023 Voters | 2027 Voters | Difference | Status | Verified Date |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :--- | :---: |
 <!-- AUDIT_DATA_TABLE_START -->
+| `06-02-04-001` | BAYELSA | EKEREMOR | KANREN/OMGBONTU | 395 | **446** | +51 | added | 2026-11-08 |
+
+| `20-04-08-007` | KATSINA | BAURE | GOZAWA - PRIMARY SCHOOL | 717 | **816** | +99 | added | 2026-11-08 |
+
+| `19-23-03-015` | KANO | KIBIYA | KIBILI PRIMARY SCHOOL III | 9 | **266** | +257 | added | 2026-11-08 |
+
 | `05-09-06-013` | BAUCHI | GIADE | GANDUHA,  KOFAR JAURO II | 294 | **294** | 0 | added | 2026-11-08 |
 
 | `31-06-12-069` | PLATEAU | JOS SOUTH | LAWRAK ROAD DASHIK | 145 | **209** | +64 | added | 2026-11-08 |

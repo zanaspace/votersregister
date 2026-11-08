@@ -19018,5 +19018,41 @@
     "difference": 0,
     "status": "added",
     "recorded_at": "2026-11-08T16:35:48.035Z"
+  },
+  {
+    "pu_code": "19-23-03-015",
+    "state": "KANO",
+    "lga": "KIBIYA",
+    "ward": "FASSI",
+    "pu_name": "KIBILI PRIMARY SCHOOL III",
+    "count_2023": 9,
+    "count_2027": 266,
+    "difference": 257,
+    "status": "added",
+    "recorded_at": "2026-11-08T16:56:05.735Z"
+  },
+  {
+    "pu_code": "20-04-08-007",
+    "state": "KATSINA",
+    "lga": "BAURE",
+    "ward": "GARKI",
+    "pu_name": "GOZAWA - PRIMARY SCHOOL",
+    "count_2023": 717,
+    "count_2027": 816,
+    "difference": 99,
+    "status": "added",
+    "recorded_at": "2026-11-08T16:56:13.016Z"
+  },
+  {
+    "pu_code": "06-02-04-001",
+    "state": "BAYELSA",
+    "lga": "EKEREMOR",
+    "ward": "OYIAKIRI III",
+    "pu_name": "KANREN/OMGBONTU",
+    "count_2023": 395,
+    "count_2027": 446,
+    "difference": 51,
+    "status": "added",
+    "recorded_at": "2026-11-08T16:56:20.311Z"
   }
 ]

@@ -19660,7 +19660,11 @@ window.INITIAL_VOTER_RECORDS = [
         if (recordsRes.ok) {
           const recData = await recordsRes.json();
           if (recData && Array.isArray(recData.records) && recData.records.length > 0) {
-            allRecords = recData.records;
+            allRecords = evaluateRecordsClient(recData.records, simParams);
+            stateProjections = computeStateProjectionsClient(allRecords);
+            renderAll();
+            return;
+          }
             try {
               const statesRes = await fetch(`/api/states?organicRate=${simParams.organicRate}&urbanMultiplier=${simParams.urbanMultiplier}&megaPULimit=${simParams.megaPULimit}&suspiciousThreshold=${simParams.suspiciousThreshold}`);
               if (statesRes.ok) {
@@ -19711,9 +19715,9 @@ window.INITIAL_VOTER_RECORDS = [
       const suspiciousThreshold = options.suspiciousThreshold || 50;
 
       return records.map(r => {
-        const c23 = Number(r.count_2023) || 0;
-        const c27 = Number(r.count_2027) || 0;
-        const delta = Number(r.difference) ?? (c27 - c23);
+        const c23 = Number(r.c23 ?? r.count_2023 ?? 0);
+        const c27 = Number(r.c27 ?? r.count_2027 ?? 0);
+        const delta = Number(r.delta ?? r.difference ?? (c27 - c23));
         const puName = (r.pu_name || '').toUpperCase();
         const lga = (r.lga || '').toUpperCase();
 
@@ -19785,8 +19789,11 @@ window.INITIAL_VOTER_RECORDS = [
         return {
           ...r,
           c23,
+          count_2023: c23,
           c27,
+          count_2027: c27,
           delta,
+          difference: delta,
           pctGrowth: Number(pctGrowth.toFixed(1)),
           expectedMax,
           discrepancy,
@@ -20159,6 +20166,11 @@ window.INITIAL_VOTER_RECORDS = [
       }
 
       for (const r of paginated) {
+        const c23Val = r.c23 ?? r.count_2023 ?? 0;
+        const c27Val = r.c27 ?? r.count_2027 ?? 0;
+        const deltaVal = r.delta ?? r.difference ?? (c27Val - c23Val);
+        const pctVal = r.pctGrowth ?? (c23Val > 0 ? ((deltaVal / c23Val) * 100).toFixed(1) : (c27Val > 0 ? '100.0' : '0.0'));
+        const discVal = r.discrepancy ?? 0;
         // Build badges
         let verdictBadge = '';
         let cardBorder = 'border-slate-200';
@@ -20199,15 +20211,15 @@ window.INITIAL_VOTER_RECORDS = [
           <div class="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
             <div>
               <span class="text-[10px] text-slate-400 block font-semibold">2023 ➔ 2027</span>
-              <span class="font-mono text-slate-700 font-bold">${r.c23} ➔ <strong class="text-slate-900">${r.c27}</strong></span>
+              <span class="font-mono text-slate-700 font-bold">${c23Val} ➔ <strong class="text-slate-900">${c27Val}</strong></span>
             </div>
             <div class="text-center">
               <span class="text-[10px] text-slate-400 block font-semibold">Change</span>
-              <span class="font-mono font-bold ${deltaColor}">${r.delta > 0 ? '+' : ''}${r.delta} (${r.pctGrowth}%)</span>
+              <span class="font-mono font-bold ${deltaColor}">${deltaVal > 0 ? '+' : ''}${deltaVal} (${pctVal}%)</span>
             </div>
             <div class="text-right">
               <span class="text-[10px] text-slate-400 block font-semibold">Surplus</span>
-              <span class="font-mono font-black ${r.discrepancy > 0 ? 'text-rose-600' : 'text-slate-400'}">${r.discrepancy > 0 ? '+' + r.discrepancy : '0'}</span>
+              <span class="font-mono font-black ${r.discrepancy > 0 ? 'text-rose-600' : 'text-slate-400'}">${discVal > 0 ? '+' + discVal : '0'}</span>
             </div>
           </div>
 
@@ -20231,13 +20243,13 @@ window.INITIAL_VOTER_RECORDS = [
             <span class="font-bold text-slate-800">${r.state}</span>
             <span class="text-[10px] text-slate-500 block">${r.lga}</span>
           </td>
-          <td class="py-3 px-3 text-right font-mono text-slate-600">${r.c23}</td>
-          <td class="py-3 px-3 text-right font-mono font-bold text-slate-900">${r.c27}</td>
-          <td class="py-3 px-3 text-right font-mono ${deltaColor}">${r.delta > 0 ? '+' : ''}${r.delta}</td>
-          <td class="py-3 px-3 text-right font-mono text-slate-600 font-medium">${r.pctGrowth}%</td>
+          <td class="py-3 px-3 text-right font-mono text-slate-600">${c23Val}</td>
+          <td class="py-3 px-3 text-right font-mono font-bold text-slate-900">${c27Val}</td>
+          <td class="py-3 px-3 text-right font-mono ${deltaColor}">${deltaVal > 0 ? '+' : ''}${deltaVal}</td>
+          <td class="py-3 px-3 text-right font-mono text-slate-600 font-medium">${pctVal}%</td>
           <td class="py-3 px-3 text-xs">${eventText}</td>
           <td class="py-3 px-3 text-right font-mono font-bold ${r.discrepancy > 0 ? 'text-rose-700' : 'text-slate-400'}">
-            ${r.discrepancy > 0 ? '+' + r.discrepancy : '0'}
+            ${discVal > 0 ? '+' + discVal : '0'}
           </td>
           <td class="py-3 px-3 text-center whitespace-nowrap">${verdictBadge}</td>
           <td class="py-3 px-3 text-center">
@@ -20260,9 +20272,13 @@ window.INITIAL_VOTER_RECORDS = [
       document.getElementById('modal-pu-code').textContent = record.pu_code;
       document.getElementById('modal-pu-name').textContent = record.pu_name;
       document.getElementById('modal-pu-location').textContent = `${record.state} • ${record.lga} • Ward: ${record.ward || 'N/A'}`;
-      document.getElementById('modal-c23-val').textContent = record.c23.toLocaleString();
-      document.getElementById('modal-c27-val').textContent = record.c27.toLocaleString();
-      document.getElementById('modal-delta-badge').textContent = `${record.delta > 0 ? '+' : ''}${record.delta} voters (${record.pctGrowth}%)`;
+      const c23M = record.c23 ?? record.count_2023 ?? 0;
+      const c27M = record.c27 ?? record.count_2027 ?? 0;
+      const deltaM = record.delta ?? record.difference ?? (c27M - c23M);
+      const pctM = record.pctGrowth ?? (c23M > 0 ? ((deltaM / c23M) * 100).toFixed(1) : (c27M > 0 ? '100.0' : '0.0'));
+      document.getElementById('modal-c23-val').textContent = c23M.toLocaleString();
+      document.getElementById('modal-c27-val').textContent = c27M.toLocaleString();
+      document.getElementById('modal-delta-badge').textContent = `${deltaM > 0 ? '+' : ''}${deltaM} voters (${pctM}%)`;
       document.getElementById('modal-expected-max').textContent = `${record.expectedMax} voters`;
       document.getElementById('modal-event-status').textContent = record.eventDetected ? `${record.eventDetected.title} (${record.eventDetected.description})` : 'No Verifiable Demographic Event Found';
       document.getElementById('modal-discrepancy-val').textContent = record.discrepancy > 0 ? `+${record.discrepancy} excess artificial voters` : '0 (Within bounds)';
@@ -20456,7 +20472,7 @@ Forensic Reason: ${selectedRecord.forensicReason}`;
         r.c23,
         r.c27,
         r.delta,
-        `${r.pctGrowth}%`,
+        `${pctVal}%`,
         r.expectedMax,
         r.discrepancy,
         `"${r.eventDetected ? r.eventDetected.title : 'None'}"`,
