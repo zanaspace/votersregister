@@ -683,3 +683,4 @@ console.log('✅ Successfully compiled', enrichedPoliticians.length, 'politician
 const alarms = enrichedPoliticians.filter(p => p.alarmLevel.includes('ALARM') || p.alarmLevel.includes('WARNING') || p.alarmLevel.includes('PURGE'));
 console.log('🚨 Total Raised Alarms:', alarms.length, 'out of', enrichedPoliticians.length);
 console.log('Sample Alarms:', alarms.slice(0, 5).map(a => `${a.name} (${a.state}): ${a.alarmBadge} (+${a.delta} / +${a.pctGrowth}%)`));
+

@@ -400,6 +400,19 @@ const server = http.createServer((req, res) => {
       return;
     }
 
+    if (pathname === '/api/politicians') {
+      const polFile = path.join(DATA_DIR, 'politicians_registry.json');
+      if (fs.existsSync(polFile)) {
+        const polData = JSON.parse(fs.readFileSync(polFile, 'utf8'));
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ total: polData.length, politicians: polData }));
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Politicians registry not found' }));
+      }
+      return;
+    }
+
     if (pathname === '/api/records') {
       const state = parsedUrl.searchParams.get('state');
       const flag = parsedUrl.searchParams.get('flag');
