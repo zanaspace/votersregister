@@ -17,7 +17,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard urban expansion in Alausa government district (+10.5%). Compliant with allowable urban threshold.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 324,
+    "c27": 358,
+    "delta": 34
   },
   {
     "id": "shettima",
@@ -37,7 +40,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Low variance demographic stability (+5.6%) in Maiduguri urban center. Fully within natural cohort expansion.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 412,
+    "c27": 435,
+    "delta": 23
   },
   {
     "id": "peter-obi",
@@ -57,7 +63,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Modest voter roll expansion (+11.9%) in Agulu. Fully within allowable 12% statutory cohort expectation.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 615,
+    "c27": 688,
+    "delta": 73
   },
   {
     "id": "atiku",
@@ -77,7 +86,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential voting point (+6.8%) in Yola North metropolis. Fully consistent with demographic trends.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 541,
+    "c27": 578,
+    "delta": 37
   },
   {
     "id": "kwankwaso",
@@ -97,7 +109,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable rural town turnout corridor (+10.7%) in Madobi LGA. No anomalous surge detected.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 580,
+    "c27": 642,
+    "delta": 62
   },
   {
     "id": "lateef-fagbemi",
@@ -117,7 +132,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Demographic stability in Oyun LGA (+8.3%). Normal cohort addition without irregularity.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 312,
+    "c27": 338,
+    "delta": 26
   },
   {
     "id": "wale-edun",
@@ -137,7 +155,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Low variance suburban register (+5.4%) in Abeokuta South. Compliant with baseline standards.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 432,
+    "delta": 22
   },
   {
     "id": "wike-minister",
@@ -157,7 +178,10 @@
     "alarmLevel": "CRITICAL_ALARM",
     "alarmBadge": "🚨 Critical: Abnormal Surge >50%",
     "alarmReason": "Severe Inflation Alert: Register grew +101.7% (+488 voters) approaching statutory ceiling. Urgent unbundling audit required.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 968,
+    "delta": 488
   },
   {
     "id": "dave-umahi-min",
@@ -177,7 +201,10 @@
     "alarmLevel": "CRITICAL_ALARM",
     "alarmBadge": "🚨 Critical: Statutory Cap Breach",
     "alarmReason": "Breach of INEC 1,000 voter threshold (1,184 registered). Requires automatic unbundling into Voting Points.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 695,
+    "c27": 1184,
+    "delta": 489
   },
   {
     "id": "festus-keyamo",
@@ -197,7 +224,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Balanced cohort expansion in Uvwie (+8.6%). No abnormal influx detected.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 420,
+    "c27": 456,
+    "delta": 36
   },
   {
     "id": "dele-alake",
@@ -217,7 +247,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard cohort expansion in Ikole Ekiti (+6.9%). Compliant with organic rate.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 288,
+    "c27": 308,
+    "delta": 20
   },
   {
     "id": "muhammad-pate",
@@ -237,7 +270,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal demographic progression in Misau LGA (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 382,
+    "c27": 415,
+    "delta": 33
   },
   {
     "id": "bosun-tijani",
@@ -257,7 +293,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable urban voter register in Ijebu Ode (+9.7%). Normal cohort growth.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 310,
+    "c27": 340,
+    "delta": 30
   },
   {
     "id": "abubakar-kyari",
@@ -277,7 +316,10 @@
     "alarmLevel": "CRITICAL_ALARM",
     "alarmBadge": "🚨 Critical: Abnormal Surge >50%",
     "alarmReason": "High Influx Alert: +50.6% surge (+172 voters) in Mobbar border LGA. Border resettlement monitoring triggered.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 340,
+    "c27": 512,
+    "delta": 172
   },
   {
     "id": "adebayo-adelabu",
@@ -297,7 +339,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal metropolitan cohort progression (+6.1%) in Ibadan South East.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 490,
+    "c27": 520,
+    "delta": 30
   },
   {
     "id": "badaru-abubakar",
@@ -317,7 +362,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent demographic baseline in Babura LGA (+7.5%). Compliant with INEC standards.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 510,
+    "c27": 548,
+    "delta": 38
   },
   {
     "id": "bello-matawalle",
@@ -337,7 +385,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable voter roll trajectory (+7.1%) in Maradun LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 482,
+    "delta": 32
   },
   {
     "id": "heineken-lokpobiri",
@@ -357,7 +408,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Riverine community demographic stability (+8.4%) in Ekeremor.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 380,
+    "c27": 412,
+    "delta": 32
   },
   {
     "id": "atiku-bagudu",
@@ -377,7 +431,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Moderate voter register expansion (+9.3%) in Birnin Kebbi capital. Below 1,000 cap.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 750,
+    "c27": 820,
+    "delta": 70
   },
   {
     "id": "gboyega-oyetola",
@@ -397,7 +454,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent register addition (+7.6%) in Boripe LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 395,
+    "c27": 425,
+    "delta": 30
   },
   {
     "id": "yusuf-tuggar",
@@ -417,7 +477,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Steady demographic growth in Gamawa (+9.0%). Compliant with regional benchmarks.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 592,
+    "c27": 645,
+    "delta": 53
   },
   {
     "id": "akpabio-senate",
@@ -437,7 +500,10 @@
     "alarmLevel": "CRITICAL_ALARM",
     "alarmBadge": "🚨 Critical: Statutory Cap Breach",
     "alarmReason": "Statutory Cap Violation: Register surged by +104.7% to 1,048 voters without polling unit unbundling. Critical audit flag.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 512,
+    "c27": 1048,
+    "delta": 536
   },
   {
     "id": "barau-jibrin",
@@ -457,7 +523,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Balanced voter roll expansion in Kabo (+8.9%). Within normal cohort limits.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 540,
+    "c27": 588,
+    "delta": 48
   },
   {
     "id": "opeyemi-bamidele",
@@ -477,7 +546,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard growth baseline in Irepodun/Ifelodun LGA (+7.8%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 360,
+    "c27": 388,
+    "delta": 28
   },
   {
     "id": "adams-oshiomhole",
@@ -497,7 +569,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential turnout point (+7.6%) in Etsako West.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 460,
+    "c27": 495,
+    "delta": 35
   },
   {
     "id": "aminu-tambuwal",
@@ -517,7 +592,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Demographic baseline stability in Tambuwal LGA (+8.2%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 490,
+    "c27": 530,
+    "delta": 40
   },
   {
     "id": "gbenga-daniel",
@@ -537,7 +615,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal suburban registration addition (+8.8%) in Sagamu LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 362,
+    "c27": 394,
+    "delta": 32
   },
   {
     "id": "seriake-dickson",
@@ -557,7 +638,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Low variance riverine voter roll (+7.8%) in Sagbama LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 442,
+    "delta": 32
   },
   {
     "id": "danjuma-goje",
@@ -577,7 +661,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent demographic baseline in Akko LGA (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 470,
+    "c27": 512,
+    "delta": 42
   },
   {
     "id": "enyinnaya-abaribe",
@@ -597,7 +684,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential voting center in Obingwa (+8.8%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 430,
+    "c27": 468,
+    "delta": 38
   },
   {
     "id": "orji-uzor-kalu",
@@ -617,7 +707,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal demographic progression in Bende LGA (+8.0%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 486,
+    "delta": 36
   },
   {
     "id": "abdul-ningi",
@@ -637,7 +730,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Demographic alignment in Ningi LGA (+8.3%). Normal cohort growth.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 494,
+    "c27": 535,
+    "delta": 41
   },
   {
     "id": "aliyu-wamakko",
@@ -657,7 +753,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential turnout in Wamakko (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 560,
+    "c27": 610,
+    "delta": 50
   },
   {
     "id": "ned-nwoko",
@@ -677,7 +776,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration in Aniocha North (+9.0%). Compliant.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 420,
+    "c27": 458,
+    "delta": 38
   },
   {
     "id": "natasha-akpoti",
@@ -697,7 +799,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal voter register baseline in Okehi LGA (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 510,
+    "c27": 554,
+    "delta": 44
   },
   {
     "id": "ireti-kingibe",
@@ -717,7 +822,10 @@
     "alarmLevel": "CRITICAL_ALARM",
     "alarmBadge": "🚨 Critical: Abnormal Surge >50%",
     "alarmReason": "Rapid Urban Influx: +55.6% growth (+300 voters) in AMAC Garki ward. Approaching statutory threshold.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 540,
+    "c27": 840,
+    "delta": 300
   },
   {
     "id": "sani-musa",
@@ -737,7 +845,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal metropolitan cohort progression (+8.3%) in Chanchaga LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 520,
+    "delta": 40
   },
   {
     "id": "jimoh-ibrahim",
@@ -757,7 +868,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential turnout in Okitipupa (+8.2%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 390,
+    "c27": 422,
+    "delta": 32
   },
   {
     "id": "ali-ndume",
@@ -777,7 +891,10 @@
     "alarmLevel": "WARNING_SPIKE",
     "alarmBadge": "⚠️ Warning: Elevated Influx",
     "alarmReason": "Security & IDP Return Corridors: +43.9% elevated addition from resettled voters in Gwoza town.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 590,
+    "delta": 180
   },
   {
     "id": "ahmad-lawan",
@@ -797,7 +914,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard growth trajectory in Bade LGA (+7.9%). Fully aligned.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 518,
+    "delta": 38
   },
   {
     "id": "yayi-adeola",
@@ -817,7 +937,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent border town cohort addition (+8.8%) in Yewa South.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 430,
+    "c27": 468,
+    "delta": 38
   },
   {
     "id": "tokunbo-abiru",
@@ -837,7 +960,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Balanced registration in Ikorodu metropolitan area (+9.1%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 495,
+    "c27": 540,
+    "delta": 45
   },
   {
     "id": "speaker-abbas",
@@ -857,7 +983,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard urban expansion in Zaria historical district (+8.7%). Compliant.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 520,
+    "c27": 565,
+    "delta": 45
   },
   {
     "id": "ben-kalu",
@@ -877,7 +1006,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration in Bende LGA (+7.8%). Fully compliant.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 442,
+    "delta": 32
   },
   {
     "id": "julius-ihonvbere",
@@ -897,7 +1029,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Demographic baseline stability in Owan West (+7.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 380,
+    "c27": 410,
+    "delta": 30
   },
   {
     "id": "kingsley-chinda",
@@ -917,7 +1052,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal suburban registration in Elelenwo (+8.3%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 460,
+    "c27": 498,
+    "delta": 38
   },
   {
     "id": "muktar-betara",
@@ -937,7 +1075,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent demographic baseline in Biu LGA (+8.3%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 530,
+    "c27": 574,
+    "delta": 44
   },
   {
     "id": "alhassan-doguwa",
@@ -957,7 +1098,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Rural demographic progression in Doguwa LGA (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 512,
+    "c27": 556,
+    "delta": 44
   },
   {
     "id": "james-faleke",
@@ -977,7 +1121,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard metropolitan registration baseline in Ojodu (+9.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 624,
+    "c27": 686,
+    "delta": 62
   },
   {
     "id": "jimi-benson",
@@ -997,7 +1144,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal suburban voter roll progression (+9.2%) in Ikorodu.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 524,
+    "delta": 44
   },
   {
     "id": "bamidele-salam",
@@ -1017,7 +1167,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential voting center in Ede North (+8.5%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 520,
+    "c27": 564,
+    "delta": 44
   },
   {
     "id": "ginger-onwusibe",
@@ -1037,7 +1190,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration in Isiala Ngwa North (+8.2%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 390,
+    "c27": 422,
+    "delta": 32
   },
   {
     "id": "sanwo-olu",
@@ -1057,7 +1213,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent high-density residential voter growth (+11.0%) in Ikoyi II corridor.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 562,
+    "c27": 624,
+    "delta": 62
   },
   {
     "id": "abba-yusuf",
@@ -1077,7 +1236,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Urban metropolitan population addition (+11.3%) in Gwale LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 640,
+    "c27": 712,
+    "delta": 72
   },
   {
     "id": "seyi-makinde",
@@ -1097,7 +1259,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Metropolitan Ibadan baseline trajectory (+9.0%). Compliant.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 512,
+    "c27": 558,
+    "delta": 46
   },
   {
     "id": "soludo",
@@ -1117,7 +1282,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration in Aguata LGA (+9.2%). Fully compliant.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 524,
+    "delta": 44
   },
   {
     "id": "alex-otti",
@@ -1137,7 +1305,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Balanced cohort expansion in Isiala Ngwa South (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 490,
+    "delta": 40
   },
   {
     "id": "hope-uzodimma",
@@ -1157,7 +1328,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Demographic baseline stability in Oru East LGA (+9.3%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 448,
+    "delta": 38
   },
   {
     "id": "dapo-abiodun",
@@ -1177,7 +1351,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal registration addition in Ikenne LGA (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 440,
+    "c27": 478,
+    "delta": 38
   },
   {
     "id": "aiyedatiwa",
@@ -1197,7 +1374,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Coastal community baseline stability in Ilaje (+8.2%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 390,
+    "c27": 422,
+    "delta": 32
   },
   {
     "id": "dauda-lawal",
@@ -1217,7 +1397,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Moderate voter growth in Gusau urban area (+9.8%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 184,
+    "c27": 202,
+    "delta": 18
   },
   {
     "id": "uba-sani",
@@ -1237,7 +1420,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "High baseline urban unit (+8.6%) approaching 1,000 voter cap. Monitoring recommended.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 824,
+    "c27": 895,
+    "delta": 71
   },
   {
     "id": "bala-mohammed",
@@ -1257,7 +1443,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Rural agrarian demographic addition in Alkaleri (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 490,
+    "delta": 40
   },
   {
     "id": "sim-fubara",
@@ -1277,7 +1466,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Riverine demographic stability in Opobo (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 420,
+    "c27": 456,
+    "delta": 36
   },
   {
     "id": "babagana-zulum",
@@ -1297,7 +1489,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Post-conflict resettlement cohort expansion (+30.4%) in Mafa town.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 92,
+    "c27": 120,
+    "delta": 28
   },
   {
     "id": "fintiri",
@@ -1317,7 +1512,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Steady demographic growth in Madagali LGA (+8.4%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 380,
+    "c27": 412,
+    "delta": 32
   },
   {
     "id": "douye-diri",
@@ -1337,7 +1535,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Low variance riverine voter roll (+7.8%) in Kolokuma/Opokuma.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 442,
+    "delta": 32
   },
   {
     "id": "hyacinth-alia",
@@ -1357,7 +1558,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard rural agrarian voter baseline in Vandeikya (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 440,
+    "c27": 478,
+    "delta": 38
   },
   {
     "id": "umo-eno",
@@ -1377,7 +1581,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration addition in Nsit Ubium (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 420,
+    "c27": 456,
+    "delta": 36
   },
   {
     "id": "sheriff-oborevwori",
@@ -1397,7 +1604,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Suburban Warri/Okpe corridor demographic baseline (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 490,
+    "c27": 532,
+    "delta": 42
   },
   {
     "id": "bassey-otu",
@@ -1417,7 +1627,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Steady demographic growth in Odukpani LGA (+8.2%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 390,
+    "c27": 422,
+    "delta": 32
   },
   {
     "id": "mai-mala-buni",
@@ -1437,7 +1650,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Post-displacement resettlement trajectory in Gujba (+9.0%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 420,
+    "c27": 458,
+    "delta": 38
   },
   {
     "id": "abdullahi-sule",
@@ -1457,7 +1673,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration in Akwanga LGA (+8.8%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 446,
+    "delta": 36
   },
   {
     "id": "mohammed-bago",
@@ -1477,7 +1696,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Traditional community baseline trajectory in Bida (+8.7%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 495,
+    "c27": 538,
+    "delta": 43
   },
   {
     "id": "dikko-radda",
@@ -1497,7 +1719,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable rural cohort progression in Charanchi (+8.4%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 430,
+    "c27": 466,
+    "delta": 36
   },
   {
     "id": "nasir-idris",
@@ -1517,7 +1742,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Standard municipal addition in Birnin Kebbi (+8.6%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 374,
+    "c27": 406,
+    "delta": 32
   },
   {
     "id": "ahmed-aliyu",
@@ -1537,7 +1765,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal metropolitan cohort progression (+8.3%) in Sokoto North.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 520,
+    "delta": 40
   },
   {
     "id": "agbu-kefas",
@@ -1557,7 +1788,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal community register expansion (+14.9%) in Wukari.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 74,
+    "c27": 85,
+    "delta": 11
   },
   {
     "id": "biodun-oyebanji",
@@ -1577,7 +1811,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential voting center in Ikogosi (+8.1%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 310,
+    "c27": 335,
+    "delta": 25
   },
   {
     "id": "usman-ododo",
@@ -1597,7 +1834,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent registration addition in Okene LGA (+8.4%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 488,
+    "delta": 38
   },
   {
     "id": "monday-okpebholo",
@@ -1617,7 +1857,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal rural cohort expansion in Esan Central (+8.5%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 410,
+    "c27": 445,
+    "delta": 35
   },
   {
     "id": "buhari",
@@ -1637,7 +1880,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Historical baseline stability in Daura (+7.5%). Consistent with allowable limits.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 398,
+    "c27": 428,
+    "delta": 30
   },
   {
     "id": "jonathan",
@@ -1657,7 +1903,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Normal residential turnout stability (+8.3%) in Ogbia LGA.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 480,
+    "c27": 520,
+    "delta": 40
   },
   {
     "id": "obasanjo",
@@ -1677,7 +1926,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Historic municipal baseline addition (+6.8%) in Abeokuta North.",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 395,
+    "c27": 422,
+    "delta": 27
   },
   {
     "id": "el-rufai",
@@ -1697,7 +1949,10 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Consistent urban cohort progression in Kaduna North (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 560,
+    "c27": 610,
+    "delta": 50
   },
   {
     "id": "amaechi",
@@ -1717,6 +1972,9 @@
     "alarmLevel": "NORMAL_STABLE",
     "alarmBadge": "✅ Normal: Demographic Baseline",
     "alarmReason": "Stable residential turnout in Ubima community (+8.9%).",
-    "liveMatch": true
+    "liveMatch": true,
+    "c23": 450,
+    "c27": 490,
+    "delta": 40
   }
 ]

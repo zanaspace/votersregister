@@ -51,3 +51,4 @@ if (errors > 0) {
 } else {
   console.log(`All politicians verified and aligned with official INEC voter records!`);
 }
+

@@ -1757,9 +1757,27 @@ const VERIFIED_POLITICIANS = [
 
 console.log(`Verified official politicians list assembled: ${VERIFIED_POLITICIANS.length} VIPs.`);
 
+// Ensure both naming conventions (c23/c27/delta and count_2023/count_2027/difference) are present
+const normalizedPoliticians = VERIFIED_POLITICIANS.map(p => {
+  const c23 = Number(p.count_2023 ?? p.c23 ?? 0);
+  const c27 = Number(p.count_2027 ?? p.c27 ?? 0);
+  const delta = Number(p.difference ?? p.delta ?? (c27 - c23));
+  const pctGrowth = p.pctGrowth !== undefined ? Number(p.pctGrowth) : (c23 > 0 ? Number(((delta / c23) * 100).toFixed(1)) : 0);
+  return {
+    ...p,
+    c23,
+    count_2023: c23,
+    c27,
+    count_2027: c27,
+    delta,
+    difference: delta,
+    pctGrowth
+  };
+});
+
 // Save to data/politicians_registry.json and public/data/politicians_registry.json
-fs.writeFileSync('data/politicians_registry.json', JSON.stringify(VERIFIED_POLITICIANS, null, 2), 'utf8');
-fs.writeFileSync('public/data/politicians_registry.json', JSON.stringify(VERIFIED_POLITICIANS, null, 2), 'utf8');
+fs.writeFileSync('data/politicians_registry.json', JSON.stringify(normalizedPoliticians, null, 2), 'utf8');
+fs.writeFileSync('public/data/politicians_registry.json', JSON.stringify(normalizedPoliticians, null, 2), 'utf8');
 console.log('Saved data/politicians_registry.json and public/data/politicians_registry.json');
 
 // Now, synchronize every politician's polling unit into data/voter_records.json, data/voter_records.csv, and data/voter_records.jsonl
@@ -1837,3 +1855,4 @@ console.log(`Saved ${voterRecordsCsvPath}`);
 const jsonlContent = voterRecords.map(r => JSON.stringify(r)).join('\n');
 fs.writeFileSync(voterRecordsJsonlPath, jsonlContent, 'utf8');
 console.log(`Saved ${voterRecordsJsonlPath}`);
+
