@@ -2539,6 +2539,10 @@ let politiciansData = [];
       emptyState.classList.add('hidden');
 
       for (const p of filtered) {
+        const c23 = Number(p.count_2023 ?? p.c23 ?? 0);
+        const c27 = Number(p.count_2027 ?? p.c27 ?? 0);
+        const delta = Number(p.difference ?? p.delta ?? (c27 - c23));
+        const pctGrowth = p.pctGrowth !== undefined ? Number(p.pctGrowth) : (c23 > 0 ? Number(((delta / c23) * 100).toFixed(1)) : 0);
         const card = document.createElement('div');
         
         let cardBorder = 'border-slate-200 bg-white';

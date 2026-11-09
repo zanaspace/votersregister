@@ -37,3 +37,4 @@ console.log(`Render simulation test for ${data.length} politicians: ${undefinedH
 if (undefinedHits === 0) {
   console.log("PASS: 100% of politicians render valid, formatted numbers (0 undefined/NaN).");
 }
+

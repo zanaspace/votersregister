@@ -152,3 +152,4 @@ Difference: \${(selectedPolitician.difference ?? selectedPolitician.delta ?? 0) 
 
 updateHtmlFile('politicians.html');
 updateHtmlFile('public/politicians.html');
+
