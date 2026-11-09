@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nigeria Politicians Polling Unit Watchlist & Voter Surge Alarm (2023 vs 2027)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased flex flex-col selection:bg-rose-100 selection:text-rose-800 pb-12">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Navigation Links -->
+      <div class="flex items-center space-x-3 min-w-0">
+        <a href="index.html" class="h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 rounded-xl bg-gradient-to-tr from-rose-600 via-amber-500 to-blue-600 flex items-center justify-center p-0.5 shadow-sm">
+          <div class="h-full w-full bg-white rounded-[10px] flex items-center justify-center">
+            <i data-lucide="award" class="w-5 h-5 text-rose-600"></i>
+          </div>
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center space-x-2">
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 truncate">
+              VIP Politician PU Watchlist
+            </h1>
+            <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-200 rounded-full">
+              Alarm Engine
+            </span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-500 truncate">Auditing Voting Units of Nigeria's Top Leaders (2023 vs 2027)</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons & Navigation Switcher -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        <!-- Switch to National Audit -->
+        <a href="index.html" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 transition">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span class="hidden sm:inline">National Audit</span>
+        </a>
+
+        <!-- Add Custom Politician Button -->
+        <button onclick="toggleAddPoliticianDrawer()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition">
+          <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Add Politician</span>
+        </button>
+
+        <!-- Export CSV -->
+        <button onclick="exportPoliticiansCSV()" class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 flex items-center space-x-1" title="Export VIP Audit CSV">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Export</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+
+    <!-- Overview Banner: Why Politician PUs Matter -->
+    <section class="bg-gradient-to-br from-rose-50/80 via-white to-amber-50/40 border border-rose-200/80 rounded-2xl p-4 sm:p-5 shadow-xs">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <span class="p-1 rounded-lg bg-rose-100 text-rose-700">
+              <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+            </span>
+            <h2 class="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wide">
+              Why We Audit Politicians' Polling Units
+            </h2>
+          </div>
+          <p class="text-xs text-slate-600 max-w-3xl leading-relaxed">
+            In Nigerian elections, the home polling units of presidents, governors, and party chieftains are high-scrutiny centers. 
+            An <strong>unnatural voter surge (&gt;25%–50%)</strong> in a politician's home ward often signals register padding, while a <strong>sudden shrinkage</strong> can indicate opposition voter suppression. 
+            The alarm below is triggered whenever a VIP polling unit deviates from Nigeria's natural 4-year demographic baseline (12%).
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button onclick="filterByAlarm('ALARM_ONLY')" class="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition">
+            <i data-lucide="bell-ring" class="w-4 h-4"></i>
+            <span>View Raised Alarms (<span id="btn-alarm-count">0</span>)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top KPI Cards -->
+    <section class="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3">
+      <!-- KPI 1: Total Tracked VIPs -->
+      <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-500 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Tracked VIPs</span>
+          <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight" id="kpi-total-vips">0</div>
+        <div class="text-[10px] sm:text-[11px] text-slate-500 mt-1">Presidents & Govs</div>
+        <div class="h-1 w-full bg-blue-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 2: Raised Alarms (Critical) -->
+      <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-rose-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Critical Alarms</span>
+          <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-rose-600 tracking-tight" id="kpi-critical-alarms">0</div>
+        <div class="text-[10px] sm:text-[11px] text-rose-700 font-bold mt-1">&gt;50% or Cap breach</div>
+        <div class="h-1 w-full bg-rose-600 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 3: Warning Spikes -->
+      <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-amber-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Warning Spikes</span>
+          <i data-lucide="trending-up" class="w-3.5 h-3.5 text-amber-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-amber-700 tracking-tight" id="kpi-warning-spikes">0</div>
+        <div class="text-[10px] sm:text-[11px] text-amber-800 font-medium mt-1">20%–50% expansion</div>
+        <div class="h-1 w-full bg-amber-500 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 4: Voter Purge Alerts -->
+      <div class="bg-purple-50/70 border border-purple-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between text-purple-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Purge Alerts</span>
+          <i data-lucide="user-minus" class="w-3.5 h-3.5 text-purple-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-purple-700 tracking-tight" id="kpi-purge-alerts">0</div>
+        <div class="text-[10px] sm:text-[11px] text-purple-800 font-medium mt-1">Voters dropped</div>
+        <div class="h-1 w-full bg-purple-600 rounded-full mt-2"></div>
+      </div>
+
+      <!-- KPI 5: Stable Baseline -->
+      <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-3 sm:p-3.5 shadow-xs flex flex-col justify-between col-span-2 md:col-span-1">
+        <div class="flex items-center justify-between text-emerald-800 mb-1">
+          <span class="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">Stable Baseline</span>
+          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+        </div>
+        <div class="text-xl sm:text-2xl font-black text-emerald-700 tracking-tight" id="kpi-stable-units">0</div>
+        <div class="text-[10px] sm:text-[11px] text-emerald-800 font-medium mt-1">Organic growth</div>
+        <div class="h-1 w-full bg-emerald-500 rounded-full mt-2"></div>
+      </div>
+    </section>
+
+    <!-- Custom Politician Add Drawer (Collapsible) -->
+    <section id="add-politician-drawer" class="hidden bg-white border border-blue-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+        <h3 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center space-x-1.5">
+          <i data-lucide="user-plus" class="w-4 h-4 text-blue-600"></i>
+          <span>Add Custom Politician / Candidate Polling Unit to Watchlist</span>
+        </h3>
+        <button onclick="toggleAddPoliticianDrawer()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleCustomPoliticianSubmit(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Politician Full Name:</label>
+          <input type="text" id="cust-name" required placeholder="e.g. Sen. Godswill Akpabio" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Office / Title:</label>
+          <input type="text" id="cust-role" required placeholder="e.g. Senator / Governorship Candidate" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Political Party:</label>
+          <select id="cust-party" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 font-semibold">
+            <option value="APC">APC</option>
+            <option value="PDP">PDP</option>
+            <option value="LP">LP</option>
+            <option value="NNPP">NNPP</option>
+            <option value="APGA">APGA</option>
+            <option value="OTHER">Other Party</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">State:</label>
+          <input type="text" id="cust-state" required placeholder="e.g. LAGOS" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 uppercase">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">LGA:</label>
+          <input type="text" id="cust-lga" required placeholder="e.g. IKEJA" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 uppercase">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Ward:</label>
+          <input type="text" id="cust-ward" required placeholder="e.g. ALAUSA (WARD 03)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 uppercase">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Polling Unit Name & Code:</label>
+          <input type="text" id="cust-pu-name" required placeholder="e.g. SUNDAY ADIGUN (24-11-03-085)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">2023 Count:</label>
+            <input type="number" id="cust-c23" required placeholder="e.g. 750" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 font-mono">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">2027 Count:</label>
+            <input type="number" id="cust-c27" required placeholder="e.g. 1152" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-blue-500 font-mono">
+          </div>
+        </div>
+        <div class="sm:col-span-2 lg:col-span-4 flex justify-end space-x-2 pt-1">
+          <button type="button" onclick="toggleAddPoliticianDrawer()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-xs">Audit & Add to Watchlist</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <section class="space-y-3">
+      <!-- Category Tabs (Horizontal Scroll on Mobile) -->
+      <div class="overflow-x-auto no-scrollbar py-1">
+        <div class="flex items-center space-x-1.5 p-1 bg-white rounded-xl border border-slate-200 text-xs shadow-xs min-w-max">
+          <button onclick="setCategoryFilter('ALL')" id="tab-cat-ALL" class="cat-tab px-3 py-1.5 rounded-lg font-bold bg-slate-200 text-slate-900 shadow-xs transition">
+            All VIPs (<span id="cat-count-all">0</span>)
+          </button>
+          <button onclick="setCategoryFilter('ALARM_ONLY')" id="tab-cat-ALARM_ONLY" class="cat-tab px-3 py-1.5 rounded-lg font-bold text-rose-700 hover:bg-rose-50 transition">
+            🚨 Raised Alarms (<span id="cat-count-alarms">0</span>)
+          </button>
+          <button onclick="setCategoryFilter('presidency')" id="tab-cat-presidency" class="cat-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition">
+            🏛️ Presidency & Federal (<span id="cat-count-presidency">0</span>)
+          </button>
+          <button onclick="setCategoryFilter('candidates')" id="tab-cat-candidates" class="cat-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition">
+            🗳️ Presidential Candidates (<span id="cat-count-candidates">0</span>)
+          </button>
+          <button onclick="setCategoryFilter('governors')" id="tab-cat-governors" class="cat-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition">
+            👑 State Governors (<span id="cat-count-governors">0</span>)
+          </button>
+          <button onclick="setCategoryFilter('past_leaders')" id="tab-cat-past_leaders" class="cat-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition">
+            📜 Former Presidents & Govs (<span id="cat-count-past">0</span>)
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Input & Secondary Filters -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+        <!-- Live Search Input -->
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="pol-search-input" oninput="handleSearch()" placeholder="Search Politician Name (e.g. Tinubu, Obi, Atiku, Wike, Sanwo-Olu), Ward, LGA..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-8 py-2 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition">
+          <button onclick="clearSearch()" id="btn-clear-search" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            <i data-lucide="x-circle" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <!-- State Filter Dropdown -->
+          <select id="pol-state-select" onchange="handleStateSelect()" class="flex-1 md:flex-none bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500 font-semibold">
+            <option value="ALL">All States</option>
+            <!-- Filled via JS -->
+          </select>
+
+          <!-- Alarm Filter Dropdown -->
+          <select id="pol-alarm-select" onchange="handleAlarmSelect()" class="flex-1 md:flex-none bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500 font-medium">
+            <option value="ALL">All Statuses</option>
+            <option value="CRITICAL_ALARM">🚨 Critical Alarms</option>
+            <option value="WARNING_SPIKE">⚠️ Warning Spikes</option>
+            <option value="PURGE_ALERT">📉 Voter Purge Alerts</option>
+            <option value="NORMAL_STABLE">✅ Stable Baseline</option>
+          </select>
+
+          <!-- Reset Filter Button -->
+          <button onclick="resetFilters()" class="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition" title="Reset Filters">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Politician Cards Grid -->
+    <section>
+      <div id="politicians-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="politicians-empty" class="hidden bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-2">
+        <i data-lucide="search-x" class="w-8 h-8 text-slate-400 mx-auto"></i>
+        <h3 class="text-sm font-bold text-slate-800">No politicians match your search</h3>
+        <p class="text-xs text-slate-500">Try searching a different name, state, or resetting your filter.</p>
+        <button onclick="resetFilters()" class="mt-2 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 font-bold text-xs">Reset All Filters</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Politician Forensic Dossier Modal / Mobile Bottom Sheet -->
+  <div id="pol-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col animate-in fade-in slide-in-from-bottom-6 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-200 flex items-start justify-between bg-slate-50 sticky top-0 z-10">
+        <div class="space-y-1 pr-2">
+          <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold" id="modal-party-badge">APC</span>
+            <span id="modal-alarm-badge"></span>
+          </div>
+          <h3 class="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug" id="modal-pol-name">Politician Name</h3>
+          <p class="text-xs text-slate-500 font-medium" id="modal-pol-role">Office / Role</p>
+        </div>
+        <button onclick="closePolModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition" title="Close">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-5 space-y-4 text-xs sm:text-sm">
+        
+        <!-- Location Hierarchy Card -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1.5">
+          <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Official Voting Location</div>
+          <div class="text-xs font-bold text-slate-900" id="modal-pu-fullname">Polling Unit Name</div>
+          <div class="text-xs text-slate-600 flex items-center space-x-2 flex-wrap gap-y-1">
+            <span class="font-mono text-blue-700 font-bold" id="modal-pu-code">PU CODE</span>
+            <span>•</span>
+            <span id="modal-ward">Ward Name</span>
+            <span>•</span>
+            <span id="modal-lga-state">LGA, State</span>
+          </div>
+        </div>
+
+        <!-- 2023 vs 2027 Progression Meter -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-600 font-bold uppercase tracking-wider text-[10px]">Voter Progression (2023 vs 2027)</span>
+            <span class="font-extrabold font-mono text-xs sm:text-sm" id="modal-delta-badge">+0 voters</span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] uppercase font-bold text-slate-500">2023 Certified</span>
+              <div class="text-xl sm:text-2xl font-black text-slate-800 mt-0.5" id="modal-c23-val">0</div>
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <span class="text-[10px] uppercase font-bold text-amber-600">2027 Preliminary</span>
+              <div class="text-xl sm:text-2xl font-black text-amber-700 mt-0.5" id="modal-c27-val">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alarm Justification & Finding -->
+        <div class="p-3.5 rounded-xl border space-y-1.5" id="modal-alarm-box">
+          <div class="font-bold flex items-center space-x-1.5" id="modal-alarm-box-title">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            <span>Forensic Alarm Assessment:</span>
+          </div>
+          <p id="modal-alarm-box-desc" class="text-slate-700 leading-relaxed text-xs sm:text-sm"></p>
+        </div>
+
+        <!-- Verification & Share Actions -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+          <a id="modal-inec-link" href="https://display.inecnigeria.org/find" target="_blank" class="flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold transition">
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Verify on Official INEC Portal</span>
+          </a>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="shareAlarmOnWhatsApp()" class="flex-1 sm:flex-none flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <span>Share Alarm (WhatsApp)</span>
+            </button>
+            <button onclick="copyPoliticianDossier()" class="flex-1 sm:flex-none flex items-center justify-center space-x-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="modal-copy-btn-text">Copy Dossier</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-4 mt-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+      Nigeria 2027 Election Volunteer Citizen Audit • VIP Politician Polling Unit Surveillance & Anomaly Monitor
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+window.INITIAL_POLITICIANS = [
+  {
+    "id": "tinubu",
+    "name": "Asiwaju Bola Ahmed Tinubu",
+    "role": "President of Nigeria",
+    "category": "presidency",
+    "party": "APC",
+    "state": "LAGOS",
+    "lga": "IKEJA",
+    "ward": "ALAUSA (WARD 03)",
+    "pu_code": "24-11-03-085",
+    "pu_name": "SUNDAY ADIGUN / KAFFI STREET, WARD 3, ALAUSA",
+    "default_c23": 750,
+    "default_c27": 1152,
+    "c23": 750,
+    "c27": 1152,
+    "delta": 402,
+    "pctGrowth": 53.6,
+    "expectedMax": 870,
+    "discrepancy": 282,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical: Statutory Cap Breach",
+    "alarmReason": "Severe Inflation Alert: Polling unit surged to 1152 voters without unbundling (+402 voters, +53.6%), breaching INEC statutory limit of 1,000 voters.",
+    "liveMatch": false
+  },
+  {
+    "id": "shettima",
+    "name": "Sen. Kashim Shettima",
+    "role": "Vice President of Nigeria",
+    "category": "presidency",
+    "party": "APC",
+    "state": "BORNO",
+    "lga": "MAIDUGURI",
+    "ward": "LAMISULA / JABARMARI (WARD 02)",
+    "pu_code": "08-15-02-001",
+    "pu_name": "SHETTIMARI POLLING UNIT 001",
+    "default_c23": 680,
+    "default_c27": 742,
+    "c23": 680,
+    "c27": 742,
+    "delta": 62,
+    "pctGrowth": 9.1,
+    "expectedMax": 792,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "peter-obi",
+    "name": "Mr. Peter Gregory Obi",
+    "role": "2023 LP Presidential Candidate & Former Gov",
+    "category": "candidates",
+    "party": "LP",
+    "state": "ANAMBRA",
+    "lga": "ANAOCHA",
+    "ward": "AGULU 2 (WARD 02)",
+    "pu_code": "04-05-02-019",
+    "pu_name": "UMUDIMAKASI SQUARE POLLING UNIT 019, AGULU",
+    "default_c23": 349,
+    "default_c27": 395,
+    "c23": 349,
+    "c27": 395,
+    "delta": 46,
+    "pctGrowth": 13.2,
+    "expectedMax": 421,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "atiku",
+    "name": "Alhaji Atiku Abubakar (GCON)",
+    "role": "2023 PDP Presidential Candidate & Former VP",
+    "category": "candidates",
+    "party": "PDP",
+    "state": "ADAMAWA",
+    "lga": "YOLA NORTH",
+    "ward": "AJIYA (WARD 01)",
+    "pu_code": "02-20-01-012",
+    "pu_name": "AJIYA POLLING UNIT 012, YOLA",
+    "default_c23": 951,
+    "default_c27": 920,
+    "c23": 951,
+    "c27": 920,
+    "delta": -31,
+    "pctGrowth": -3.3,
+    "expectedMax": 1095,
+    "discrepancy": 0,
+    "alarmLevel": "PURGE_ALERT",
+    "alarmBadge": "📉 Voter Purge Alert",
+    "alarmReason": "Abnormal voter contraction: 31 voters vanished (-3.3%). Requires audit for possible voter suppression or wrongful deregistration.",
+    "liveMatch": false
+  },
+  {
+    "id": "kwankwaso",
+    "name": "Engr. Rabiu Musa Kwankwaso",
+    "role": "2023 NNPP Presidential Candidate & Former Gov",
+    "category": "candidates",
+    "party": "NNPP",
+    "state": "KANO",
+    "lga": "MADOBI",
+    "ward": "KWANKWASO (WARD 01)",
+    "pu_code": "19-28-01-005",
+    "pu_name": "KWANKWASO PRY. SCH. POLLING UNIT 005",
+    "default_c23": 804,
+    "default_c27": 952,
+    "c23": 804,
+    "c27": 952,
+    "delta": 148,
+    "pctGrowth": 18.4,
+    "expectedMax": 930,
+    "discrepancy": 22,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "akpabio",
+    "name": "Sen. Godswill Obot Akpabio",
+    "role": "President of the Senate",
+    "category": "presidency",
+    "party": "APC",
+    "state": "AKWA IBOM",
+    "lga": "ESSIEN UDIM",
+    "ward": "UKANA WEST 2 (WARD 06)",
+    "pu_code": "03-05-06-009",
+    "pu_name": "UKANA WEST 2 COUNCIL HALL POLLING UNIT 009",
+    "default_c23": 562,
+    "default_c27": 559,
+    "c23": 562,
+    "c27": 559,
+    "delta": -3,
+    "pctGrowth": -0.5,
+    "expectedMax": 659,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "tajudeen-abbas",
+    "name": "Rt. Hon. Tajudeen Abbas",
+    "role": "Speaker, House of Representatives",
+    "category": "presidency",
+    "party": "APC",
+    "state": "KADUNA",
+    "lga": "ZARIA",
+    "ward": "KOFAR GAYAN / GABAS",
+    "pu_code": "18-23-01-008",
+    "pu_name": "KOFAR GABAS PRIMARY SCHOOL PU 008, ZARIA",
+    "default_c23": 554,
+    "default_c27": 580,
+    "c23": 554,
+    "c27": 580,
+    "delta": 26,
+    "pctGrowth": 4.7,
+    "expectedMax": 650,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "wike",
+    "name": "Chief Nyesom Ezenwo Wike",
+    "role": "Minister of FCT & Former Rivers Gov",
+    "category": "governors",
+    "party": "PDP",
+    "state": "RIVERS",
+    "lga": "OBIO/AKPOR",
+    "ward": "RUMUEPIRIKOM (WARD 09)",
+    "pu_code": "32-15-09-042",
+    "pu_name": "RUMUEPIRIKOM VILLAGE SQUARE POLLING UNIT 042",
+    "default_c23": 1233,
+    "default_c27": 1220,
+    "c23": 1233,
+    "c27": 1220,
+    "delta": -13,
+    "pctGrowth": -1.1,
+    "expectedMax": 1411,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "buhari",
+    "name": "Muhammadu Buhari (GCFR)",
+    "role": "Former President of Nigeria",
+    "category": "past_leaders",
+    "party": "APC",
+    "state": "KATSINA",
+    "lga": "DAURA",
+    "ward": "SARKIN YARA A (WARD 01)",
+    "pu_code": "20-10-01-003",
+    "pu_name": "SARKIN YARA POLLING UNIT 003, KOFAR BARU, DAURA",
+    "default_c23": 398,
+    "default_c27": 417,
+    "c23": 398,
+    "c27": 417,
+    "delta": 19,
+    "pctGrowth": 4.8,
+    "expectedMax": 476,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "jonathan",
+    "name": "Dr. Goodluck Ebele Jonathan (GCFR)",
+    "role": "Former President of Nigeria",
+    "category": "past_leaders",
+    "party": "PDP",
+    "state": "BAYELSA",
+    "lga": "OGBIA",
+    "ward": "OTUOKE (WARD 13)",
+    "pu_code": "06-06-13-039",
+    "pu_name": "OTUABULA / OTUOKE POLLING UNIT 039",
+    "default_c23": 450,
+    "default_c27": 485,
+    "c23": 450,
+    "c27": 485,
+    "delta": 35,
+    "pctGrowth": 7.8,
+    "expectedMax": 534,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "obasanjo",
+    "name": "Chief Olusegun Obasanjo (GCFR)",
+    "role": "Former President of Nigeria",
+    "category": "past_leaders",
+    "party": "Independent",
+    "state": "OGUN",
+    "lga": "ABEOKUTA NORTH",
+    "ward": "TOTORO / SOKORI (WARD 11)",
+    "pu_code": "27-01-11-022",
+    "pu_name": "OLUSOMI COMPOUND POLLING UNIT 022, TOTORO",
+    "default_c23": 312,
+    "default_c27": 334,
+    "c23": 312,
+    "c27": 334,
+    "delta": 22,
+    "pctGrowth": 7.1,
+    "expectedMax": 379,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "sanwo-olu",
+    "name": "Mr. Babajide Olusola Sanwo-Olu",
+    "role": "Governor of Lagos State",
+    "category": "governors",
+    "party": "APC",
+    "state": "LAGOS",
+    "lga": "ETI-OSA",
+    "ward": "IKOYI II (WARD 19)",
+    "pu_code": "24-08-19-006",
+    "pu_name": "LATEEF JAKANDE / FEMI OKUNNU POLLING UNIT 006",
+    "default_c23": 750,
+    "default_c27": 784,
+    "c23": 750,
+    "c27": 784,
+    "delta": 34,
+    "pctGrowth": 4.5,
+    "expectedMax": 870,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "abba-yusuf",
+    "name": "Engr. Abba Kabir Yusuf",
+    "role": "Governor of Kano State",
+    "category": "governors",
+    "party": "NNPP",
+    "state": "KANO",
+    "lga": "GWALE",
+    "ward": "DISO (WARD 04)",
+    "pu_code": "19-18-04-012",
+    "pu_name": "CHIRANCHI / DISO PRIMARY SCHOOL PU 012",
+    "default_c23": 750,
+    "default_c27": 798,
+    "c23": 750,
+    "c27": 798,
+    "delta": 48,
+    "pctGrowth": 6.4,
+    "expectedMax": 870,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "seyi-makinde",
+    "name": "Engr. Seyi Makinde",
+    "role": "Governor of Oyo State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "OYO",
+    "lga": "IBADAN NORTH EAST",
+    "ward": "WARD 11",
+    "pu_code": "30-17-11-001",
+    "pu_name": "ABAYOMI IWO ROAD POLLING UNIT 001, IBADAN",
+    "default_c23": 366,
+    "default_c27": 416,
+    "c23": 366,
+    "c27": 416,
+    "delta": 50,
+    "pctGrowth": 13.7,
+    "expectedMax": 440,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "soludo",
+    "name": "Prof. Charles Chukwuma Soludo",
+    "role": "Governor of Anambra State",
+    "category": "governors",
+    "party": "APGA",
+    "state": "ANAMBRA",
+    "lga": "AGUATA",
+    "ward": "ISUOFIA (WARD 15)",
+    "pu_code": "04-01-15-002",
+    "pu_name": "OFUIYI SQUARE, UMUEZE, ISUOFIA PU 002",
+    "default_c23": 291,
+    "default_c27": 354,
+    "c23": 291,
+    "c27": 354,
+    "delta": 63,
+    "pctGrowth": 21.6,
+    "expectedMax": 356,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "alex-otti",
+    "name": "Dr. Alex Chioma Otti (OFR)",
+    "role": "Governor of Abia State",
+    "category": "governors",
+    "party": "LP",
+    "state": "ABIA",
+    "lga": "ISIALA NGWA SOUTH",
+    "ward": "AHABA UMUEZE (WARD 05)",
+    "pu_code": "01-07-05-017",
+    "pu_name": "AHABA UMUEZE CENTRAL SCHOOL PU 017",
+    "default_c23": 1315,
+    "default_c27": 1306,
+    "c23": 1315,
+    "c27": 1306,
+    "delta": -9,
+    "pctGrowth": -0.7,
+    "expectedMax": 1503,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "hope-uzodimma",
+    "name": "Sen. Hope Uzodimma",
+    "role": "Governor of Imo State",
+    "category": "governors",
+    "party": "APC",
+    "state": "IMO",
+    "lga": "ORU EAST",
+    "ward": "OMUMA (WARD 08)",
+    "pu_code": "16-23-08-032",
+    "pu_name": "EJEMEKWURU / OMUMA COMM. PRI. SCH. PU 032",
+    "default_c23": 750,
+    "default_c27": 1311,
+    "c23": 750,
+    "c27": 1311,
+    "delta": 561,
+    "pctGrowth": 74.8,
+    "expectedMax": 870,
+    "discrepancy": 441,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical: Statutory Cap Breach",
+    "alarmReason": "Severe Inflation Alert: Polling unit surged to 1311 voters without unbundling (+561 voters, +74.8%), breaching INEC statutory limit of 1,000 voters.",
+    "liveMatch": false
+  },
+  {
+    "id": "el-rufai",
+    "name": "Mallam Nasir Ahmad El-Rufai",
+    "role": "Former Governor of Kaduna State",
+    "category": "past_leaders",
+    "party": "APC",
+    "state": "KADUNA",
+    "lga": "KADUNA NORTH",
+    "ward": "UNGWAN SARKI (WARD 12)",
+    "pu_code": "18-09-12-024",
+    "pu_name": "UNGWAN SARKI PRIMARY SCHOOL PU 024",
+    "default_c23": 496,
+    "default_c27": 525,
+    "c23": 496,
+    "c27": 525,
+    "delta": 29,
+    "pctGrowth": 5.8,
+    "expectedMax": 586,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "amaechi",
+    "name": "Rt. Hon. Rotimi Chibuike Amaechi",
+    "role": "Former Minister & Rivers Governor",
+    "category": "past_leaders",
+    "party": "APC",
+    "state": "RIVERS",
+    "lga": "IKWERRE",
+    "ward": "UBIMA (WARD 08)",
+    "pu_code": "32-13-08-014",
+    "pu_name": "UBIMA COMMUNITY SQUARE PU 014",
+    "default_c23": 586,
+    "default_c27": 614,
+    "c23": 586,
+    "c27": 614,
+    "delta": 28,
+    "pctGrowth": 4.8,
+    "expectedMax": 686,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "dapo-abiodun",
+    "name": "Prince Dapo Abiodun (MFR)",
+    "role": "Governor of Ogun State",
+    "category": "governors",
+    "party": "APC",
+    "state": "OGUN",
+    "lga": "IKENNE",
+    "ward": "IPERU (WARD 03)",
+    "pu_code": "27-12-03-002",
+    "pu_name": "ITA OSANYIN POLLING UNIT 002, IPERU-REMO",
+    "default_c23": 705,
+    "default_c27": 758,
+    "c23": 705,
+    "c27": 758,
+    "delta": 53,
+    "pctGrowth": 7.5,
+    "expectedMax": 820,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "aiyedatiwa",
+    "name": "Hon. Lucky Orimisan Aiyedatiwa",
+    "role": "Governor of Ondo State",
+    "category": "governors",
+    "party": "APC",
+    "state": "ONDO",
+    "lga": "ILAJE",
+    "ward": "MAHIN (WARD 04)",
+    "pu_code": "28-11-04-005",
+    "pu_name": "OBE NLA PRIMARY SCHOOL PU 005",
+    "default_c23": 1095,
+    "default_c27": 1035,
+    "c23": 1095,
+    "c27": 1035,
+    "delta": -60,
+    "pctGrowth": -5.5,
+    "expectedMax": 1256,
+    "discrepancy": 0,
+    "alarmLevel": "PURGE_ALERT",
+    "alarmBadge": "📉 Voter Purge Alert",
+    "alarmReason": "Abnormal voter contraction: 60 voters vanished (-5.5%). Requires audit for possible voter suppression or wrongful deregistration.",
+    "liveMatch": false
+  },
+  {
+    "id": "dauda-lawal",
+    "name": "Dr. Dauda Lawal",
+    "role": "Governor of Zamfara State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "ZAMFARA",
+    "lga": "GUSAU",
+    "ward": "MADAWAKI (WARD 06)",
+    "pu_code": "36-07-06-004",
+    "pu_name": "WOMEN CENTRE POLLING UNIT 004, GUSAU",
+    "default_c23": 2,
+    "default_c27": 1447,
+    "c23": 2,
+    "c27": 1447,
+    "delta": 1445,
+    "pctGrowth": 72250,
+    "expectedMax": 32,
+    "discrepancy": 1415,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical: Statutory Cap Breach",
+    "alarmReason": "Severe Inflation Alert: Polling unit surged to 1447 voters without unbundling (+1445 voters, +72250.0%), breaching INEC statutory limit of 1,000 voters.",
+    "liveMatch": false
+  },
+  {
+    "id": "uba-sani",
+    "name": "Sen. Uba Sani",
+    "role": "Governor of Kaduna State",
+    "category": "governors",
+    "party": "APC",
+    "state": "KADUNA",
+    "lga": "KADUNA NORTH",
+    "ward": "KAWO (WARD 07)",
+    "pu_code": "18-09-07-007",
+    "pu_name": "LEA PRI. SCH. KAWO PU 007, KADUNA",
+    "default_c23": 729,
+    "default_c27": 750,
+    "c23": 729,
+    "c27": 750,
+    "delta": 21,
+    "pctGrowth": 2.9,
+    "expectedMax": 846,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "bala-mohammed",
+    "name": "Sen. Bala Abdulkadir Mohammed",
+    "role": "Governor of Bauchi State (PDP Govs Chair)",
+    "category": "governors",
+    "party": "PDP",
+    "state": "BAUCHI",
+    "lga": "ALKALERI",
+    "ward": "YELWAN DUGURI (WARD 10)",
+    "pu_code": "05-02-10-003",
+    "pu_name": "BAKIN DUTSE POLLING UNIT 003, YELWA DUGURI",
+    "default_c23": 592,
+    "default_c27": 657,
+    "c23": 592,
+    "c27": 657,
+    "delta": 65,
+    "pctGrowth": 11,
+    "expectedMax": 693,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "sim-fubara",
+    "name": "Sir Siminalayi Fubara",
+    "role": "Governor of Rivers State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "RIVERS",
+    "lga": "OPOBO/NKORO",
+    "ward": "OPOBO TOWN (WARD 05)",
+    "pu_code": "32-20-05-006",
+    "pu_name": "OPOBO TOWN POLLING UNIT 006",
+    "default_c23": 773,
+    "default_c27": 771,
+    "c23": 773,
+    "c27": 771,
+    "delta": -2,
+    "pctGrowth": -0.3,
+    "expectedMax": 896,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "babagana-zulum",
+    "name": "Prof. Babagana Umara Zulum",
+    "role": "Governor of Borno State",
+    "category": "governors",
+    "party": "APC",
+    "state": "BORNO",
+    "lga": "MAFA",
+    "ward": "MAFA (WARD 01)",
+    "pu_code": "08-16-01-006",
+    "pu_name": "AJARI POLLING UNIT 006, MAFA",
+    "default_c23": 799,
+    "default_c27": 835,
+    "c23": 799,
+    "c27": 835,
+    "delta": 36,
+    "pctGrowth": 4.5,
+    "expectedMax": 925,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "fintiri",
+    "name": "Rt. Hon. Ahmadu Umaru Fintiri",
+    "role": "Governor of Adamawa State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "ADAMAWA",
+    "lga": "MADAGALI",
+    "ward": "KIRCHINGA (WARD 06)",
+    "pu_code": "02-12-06-004",
+    "pu_name": "KIRCHINGA PRIMARY SCHOOL PU 004",
+    "default_c23": 934,
+    "default_c27": 932,
+    "c23": 934,
+    "c27": 932,
+    "delta": -2,
+    "pctGrowth": -0.2,
+    "expectedMax": 1076,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "douye-diri",
+    "name": "Sen. Douye Diri",
+    "role": "Governor of Bayelsa State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "BAYELSA",
+    "lga": "KOLOKUMA/OPOKUMA",
+    "ward": "SAMPOU (WARD 06)",
+    "pu_code": "06-04-06-004",
+    "pu_name": "KALAMA-OWEI POLLING UNIT 004, SAMPOU",
+    "default_c23": 650,
+    "default_c27": 688,
+    "c23": 650,
+    "c27": 688,
+    "delta": 38,
+    "pctGrowth": 5.8,
+    "expectedMax": 758,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "hyacinth-alia",
+    "name": "Rev. Fr. Dr. Hyacinth Alia",
+    "role": "Governor of Benue State",
+    "category": "governors",
+    "party": "APC",
+    "state": "BENUE",
+    "lga": "VANDEIKYA",
+    "ward": "MBADEDE (WARD 08)",
+    "pu_code": "07-23-08-005",
+    "pu_name": "MBADEDE PRIMARY SCHOOL PU 005",
+    "default_c23": 475,
+    "default_c27": 532,
+    "c23": 475,
+    "c27": 532,
+    "delta": 57,
+    "pctGrowth": 12,
+    "expectedMax": 562,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "umo-eno",
+    "name": "Pastor Umo Bassey Eno",
+    "role": "Governor of Akwa Ibom State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "AKWA IBOM",
+    "lga": "NSIT UBIUM",
+    "ward": "UBIUM NORTH (WARD 03)",
+    "pu_code": "03-19-03-002",
+    "pu_name": "IKOT EKPENE UDO POLLING UNIT 002",
+    "default_c23": 750,
+    "default_c27": 1098,
+    "c23": 750,
+    "c27": 1098,
+    "delta": 348,
+    "pctGrowth": 46.4,
+    "expectedMax": 870,
+    "discrepancy": 228,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical: Statutory Cap Breach",
+    "alarmReason": "Severe Inflation Alert: Polling unit surged to 1098 voters without unbundling (+348 voters, +46.4%), breaching INEC statutory limit of 1,000 voters.",
+    "liveMatch": false
+  },
+  {
+    "id": "sheriff-oborevwori",
+    "name": "Rt. Hon. Sheriff Oborevwori",
+    "role": "Governor of Delta State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "DELTA",
+    "lga": "OKPE",
+    "ward": "OSUBI (WARD 05)",
+    "pu_code": "10-14-05-004",
+    "pu_name": "OSUBI SECONDARY SCHOOL PU 004",
+    "default_c23": 316,
+    "default_c27": 366,
+    "c23": 316,
+    "c27": 366,
+    "delta": 50,
+    "pctGrowth": 15.8,
+    "expectedMax": 384,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "bassey-otu",
+    "name": "Sen. Prince Bassey Edet Otu",
+    "role": "Governor of Cross River State",
+    "category": "governors",
+    "party": "APC",
+    "state": "CROSS RIVER",
+    "lga": "ODUKPANI",
+    "ward": "ADIABO (WARD 02)",
+    "pu_code": "09-15-02-003",
+    "pu_name": "ADIABO TOWN HALL PU 003",
+    "default_c23": 750,
+    "default_c27": 773,
+    "c23": 750,
+    "c27": 773,
+    "delta": 23,
+    "pctGrowth": 3.1,
+    "expectedMax": 870,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "mai-mala-buni",
+    "name": "Hon. Mai Mala Buni",
+    "role": "Governor of Yobe State",
+    "category": "governors",
+    "party": "APC",
+    "state": "YOBE",
+    "lga": "GUJBA",
+    "ward": "BUNI GARI (WARD 03)",
+    "pu_code": "35-06-03-005",
+    "pu_name": "BUNI GARI PRIMARY SCHOOL PU 005",
+    "default_c23": 938,
+    "default_c27": 1011,
+    "c23": 938,
+    "c27": 1011,
+    "delta": 73,
+    "pctGrowth": 7.8,
+    "expectedMax": 1081,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "abdullahi-sule",
+    "name": "Engr. Abdullahi A. Sule",
+    "role": "Governor of Nasarawa State",
+    "category": "governors",
+    "party": "APC",
+    "state": "NASARAWA",
+    "lga": "AKWANGA",
+    "ward": "GUDI (WARD 04)",
+    "pu_code": "25-01-04-002",
+    "pu_name": "MOTOR PARK POLLING UNIT 002, GUDI",
+    "default_c23": 786,
+    "default_c27": 806,
+    "c23": 786,
+    "c27": 806,
+    "delta": 20,
+    "pctGrowth": 2.5,
+    "expectedMax": 910,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "mohammed-bago",
+    "name": "Hon. Mohammed Umaru Bago",
+    "role": "Governor of Niger State",
+    "category": "governors",
+    "party": "APC",
+    "state": "NIGER",
+    "lga": "CHANCHAGA",
+    "ward": "TWASHUN (WARD 03)",
+    "pu_code": "26-06-03-005",
+    "pu_name": "TWASHUN POLLING UNIT 005, MINNA",
+    "default_c23": 217,
+    "default_c27": 267,
+    "c23": 217,
+    "c27": 267,
+    "delta": 50,
+    "pctGrowth": 23,
+    "expectedMax": 273,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "dikko-radda",
+    "name": "Dr. Dikko Umaru Radda",
+    "role": "Governor of Katsina State",
+    "category": "governors",
+    "party": "APC",
+    "state": "KATSINA",
+    "lga": "CHARANCHI",
+    "ward": "RADDA (WARD 07)",
+    "pu_code": "20-07-07-002",
+    "pu_name": "RADDA PRIMARY SCHOOL PU 002",
+    "default_c23": 534,
+    "default_c27": 579,
+    "c23": 534,
+    "c27": 579,
+    "delta": 45,
+    "pctGrowth": 8.4,
+    "expectedMax": 628,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "nasir-idris",
+    "name": "Dr. Nasir Idris (Kauran Gwandu)",
+    "role": "Governor of Kebbi State",
+    "category": "governors",
+    "party": "APC",
+    "state": "KEBBI",
+    "lga": "BIRNIN KEBBI",
+    "ward": "DANGALADIMA (WARD 02)",
+    "pu_code": "21-04-02-004",
+    "pu_name": "NAGARI COLLEGE POLLING UNIT 004",
+    "default_c23": 1987,
+    "default_c27": 1907,
+    "c23": 1987,
+    "c27": 1907,
+    "delta": -80,
+    "pctGrowth": -4,
+    "expectedMax": 2255,
+    "discrepancy": 0,
+    "alarmLevel": "PURGE_ALERT",
+    "alarmBadge": "📉 Voter Purge Alert",
+    "alarmReason": "Abnormal voter contraction: 80 voters vanished (-4.0%). Requires audit for possible voter suppression or wrongful deregistration.",
+    "liveMatch": false
+  },
+  {
+    "id": "ahmed-aliyu",
+    "name": "Dr. Ahmed Aliyu Sokoto",
+    "role": "Governor of Sokoto State",
+    "category": "governors",
+    "party": "APC",
+    "state": "SOKOTO",
+    "lga": "SOKOTO NORTH",
+    "ward": "MAGAJIN RAFI (WARD 03)",
+    "pu_code": "33-17-03-006",
+    "pu_name": "MAGAJIN RAFI POLLING UNIT 006, SOKOTO",
+    "default_c23": 706,
+    "default_c27": 960,
+    "c23": 706,
+    "c27": 960,
+    "delta": 254,
+    "pctGrowth": 36,
+    "expectedMax": 821,
+    "discrepancy": 139,
+    "alarmLevel": "WARNING_SPIKE",
+    "alarmBadge": "⚠️ Abnormal Surge Alert",
+    "alarmReason": "Abnormal expansion (+254 voters, +36.0%) exceeding regional organic baseline. Discrepancy surplus of 139 voters flagged.",
+    "liveMatch": false
+  },
+  {
+    "id": "agbu-kefas",
+    "name": "Dr. Agbu Kefas",
+    "role": "Governor of Taraba State",
+    "category": "governors",
+    "party": "PDP",
+    "state": "TARABA",
+    "lga": "WUKARI",
+    "ward": "AVYI (WARD 02)",
+    "pu_code": "34-16-02-004",
+    "pu_name": "HOSPITAL ROAD POLLING UNIT 004, WUKARI",
+    "default_c23": 707,
+    "default_c27": 712,
+    "c23": 707,
+    "c27": 712,
+    "delta": 5,
+    "pctGrowth": 0.7,
+    "expectedMax": 822,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "biodun-oyebanji",
+    "name": "Mr. Biodun Abayomi Oyebanji",
+    "role": "Governor of Ekiti State",
+    "category": "governors",
+    "party": "APC",
+    "state": "EKITI",
+    "lga": "EKITI WEST",
+    "ward": "IKOGOSI (WARD 06)",
+    "pu_code": "13-05-06-003",
+    "pu_name": "OKELELE POLLING UNIT 003, IKOGOSI",
+    "default_c23": 382,
+    "default_c27": 394,
+    "c23": 382,
+    "c27": 394,
+    "delta": 12,
+    "pctGrowth": 3.1,
+    "expectedMax": 458,
+    "discrepancy": 0,
+    "alarmLevel": "NORMAL_STABLE",
+    "alarmBadge": "✅ Normal Baseline",
+    "alarmReason": "Voter count progression is consistent with Nigeria's organic 4-year demographic growth (~10-15%).",
+    "liveMatch": false
+  },
+  {
+    "id": "usman-ododo",
+    "name": "Alhaji Ahmed Usman Ododo",
+    "role": "Governor of Kogi State",
+    "category": "governors",
+    "party": "APC",
+    "state": "KOGI",
+    "lga": "OKENE",
+    "ward": "UPOGORO / ODENKU (WARD 08)",
+    "pu_code": "22-17-08-003",
+    "pu_name": "UPOGORO POLLING UNIT 003, OKENE",
+    "default_c23": 89,
+    "default_c27": 701,
+    "c23": 89,
+    "c27": 701,
+    "delta": 612,
+    "pctGrowth": 687.6,
+    "expectedMax": 130,
+    "discrepancy": 571,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical Register Inflation",
+    "alarmReason": "Massive Unjustified Surge: Polling unit surged by +612 voters (+687.6%). Estimated 571 artificial excess voters above demographic ceiling.",
+    "liveMatch": false
+  },
+  {
+    "id": "monday-okpebholo",
+    "name": "Sen. Monday Okpebholo",
+    "role": "Governor of Edo State",
+    "category": "governors",
+    "party": "APC",
+    "state": "EDO",
+    "lga": "ESAN CENTRAL",
+    "ward": "UWESSAN (WARD 06)",
+    "pu_code": "12-03-06-001",
+    "pu_name": "UDOMI PRIMARY SCHOOL PU 001",
+    "default_c23": 507,
+    "default_c27": 1056,
+    "c23": 507,
+    "c27": 1056,
+    "delta": 549,
+    "pctGrowth": 108.3,
+    "expectedMax": 598,
+    "discrepancy": 458,
+    "alarmLevel": "CRITICAL_ALARM",
+    "alarmBadge": "🚨 Critical: Statutory Cap Breach",
+    "alarmReason": "Severe Inflation Alert: Polling unit surged to 1056 voters without unbundling (+549 voters, +108.3%), breaching INEC statutory limit of 1,000 voters.",
+    "liveMatch": false
+  }
+];
+</script>
+<script>
+    // Global State
+    let politiciansData = [];
+    let currentCategory = 'ALL';
+    let currentSearchTerm = '';
+    let currentFilterState = 'ALL';
+    let currentFilterAlarm = 'ALL';
+    let selectedPolitician = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load data
+      if (window.INITIAL_POLITICIANS && window.INITIAL_POLITICIANS.length > 0) {
+        politiciansData = window.INITIAL_POLITICIANS;
+        renderAll();
+      } else {
+        loadData();
+      }
+      lucide.createIcons();
+    });
+
+    async function loadData() {
+      try {
+        const res = await fetch('data/politicians_registry.json');
+        if (res.ok) {
+          politiciansData = await res.json();
+          renderAll();
+        }
+      } catch (e) {
+        console.warn('Fallback loading error:', e);
+      }
+    }
+
+    function renderAll() {
+      renderKPIs();
+      populateStateDropdown();
+      renderPoliticians();
+      lucide.createIcons();
+    }
+
+    function renderKPIs() {
+      const total = politiciansData.length;
+      const critical = politiciansData.filter(p => p.alarmLevel === 'CRITICAL_ALARM').length;
+      const warnings = politiciansData.filter(p => p.alarmLevel === 'WARNING_SPIKE').length;
+      const purges = politiciansData.filter(p => p.alarmLevel === 'PURGE_ALERT').length;
+      const stables = politiciansData.filter(p => p.alarmLevel === 'NORMAL_STABLE').length;
+
+      document.getElementById('kpi-total-vips').textContent = total;
+      document.getElementById('kpi-critical-alarms').textContent = critical;
+      document.getElementById('kpi-warning-spikes').textContent = warnings;
+      document.getElementById('kpi-purge-alerts').textContent = purges;
+      document.getElementById('kpi-stable-units').textContent = stables;
+      document.getElementById('btn-alarm-count').textContent = critical + warnings + purges;
+
+      // Category tab counters
+      document.getElementById('cat-count-all').textContent = total;
+      document.getElementById('cat-count-alarms').textContent = critical + warnings + purges;
+      document.getElementById('cat-count-presidency').textContent = politiciansData.filter(p => p.category === 'presidency').length;
+      document.getElementById('cat-count-candidates').textContent = politiciansData.filter(p => p.category === 'candidates').length;
+      document.getElementById('cat-count-governors').textContent = politiciansData.filter(p => p.category === 'governors').length;
+      document.getElementById('cat-count-past').textContent = politiciansData.filter(p => p.category === 'past_leaders').length;
+    }
+
+    function populateStateDropdown() {
+      const select = document.getElementById('pol-state-select');
+      const current = select.value;
+      const states = [...new Set(politiciansData.map(p => p.state))].sort();
+
+      select.innerHTML = '<option value="ALL">All States</option>';
+      for (const s of states) {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        if (s === current) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function getFilteredPoliticians() {
+      let filtered = politiciansData;
+
+      // Category filter
+      if (currentCategory === 'ALARM_ONLY') {
+        filtered = filtered.filter(p => p.alarmLevel !== 'NORMAL_STABLE');
+      } else if (currentCategory !== 'ALL') {
+        filtered = filtered.filter(p => p.category === currentCategory);
+      }
+
+      // State filter
+      if (currentFilterState !== 'ALL') {
+        filtered = filtered.filter(p => p.state === currentFilterState);
+      }
+
+      // Alarm level filter
+      if (currentFilterAlarm !== 'ALL') {
+        filtered = filtered.filter(p => p.alarmLevel === currentFilterAlarm);
+      }
+
+      // Search term
+      if (currentSearchTerm) {
+        const q = currentSearchTerm.toLowerCase();
+        filtered = filtered.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          p.role.toLowerCase().includes(q) ||
+          p.state.toLowerCase().includes(q) ||
+          p.lga.toLowerCase().includes(q) ||
+          p.ward.toLowerCase().includes(q) ||
+          p.pu_name.toLowerCase().includes(q) ||
+          p.pu_code.toLowerCase().includes(q)
+        );
+      }
+
+      return filtered;
+    }
+
+    function renderPoliticians() {
+      const container = document.getElementById('politicians-container');
+      const emptyState = document.getElementById('politicians-empty');
+      container.innerHTML = '';
+
+      const filtered = getFilteredPoliticians();
+
+      if (filtered.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+
+      for (const p of filtered) {
+        const card = document.createElement('div');
+        
+        let cardBorder = 'border-slate-200 bg-white';
+        let alarmBadgeHtml = '';
+        let deltaColor = 'text-slate-700';
+
+        if (p.alarmLevel === 'CRITICAL_ALARM') {
+          cardBorder = 'border-rose-300 bg-rose-50/20';
+          alarmBadgeHtml = `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300">🚨 Critical Alarm</span>`;
+          deltaColor = 'text-rose-700 font-extrabold';
+        } else if (p.alarmLevel === 'WARNING_SPIKE') {
+          cardBorder = 'border-amber-300 bg-amber-50/20';
+          alarmBadgeHtml = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800 border border-amber-300">⚠️ Warning Spike</span>`;
+          deltaColor = 'text-amber-700 font-bold';
+        } else if (p.alarmLevel === 'PURGE_ALERT') {
+          cardBorder = 'border-purple-300 bg-purple-50/20';
+          alarmBadgeHtml = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-800 border border-purple-200">📉 Purge Alert</span>`;
+          deltaColor = 'text-purple-700 font-bold';
+        } else {
+          alarmBadgeHtml = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">✅ Stable Baseline</span>`;
+          deltaColor = 'text-emerald-700 font-semibold';
+        }
+
+        // Party badge color
+        let partyColor = 'bg-slate-100 text-slate-800';
+        if (p.party === 'APC') partyColor = 'bg-sky-100 text-sky-800 border border-sky-200';
+        else if (p.party === 'PDP') partyColor = 'bg-red-100 text-red-800 border border-red-200';
+        else if (p.party === 'LP') partyColor = 'bg-green-100 text-green-800 border border-green-200';
+        else if (p.party === 'NNPP') partyColor = 'bg-blue-100 text-blue-800 border border-blue-200';
+        else if (p.party === 'APGA') partyColor = 'bg-amber-100 text-amber-800 border border-amber-200';
+
+        card.className = `p-4 rounded-2xl border ${cardBorder} shadow-xs space-y-3 flex flex-col justify-between hover:shadow-md transition`;
+        card.innerHTML = `
+          <div class="space-y-2">
+            <!-- Header: Party & Alarm Badge -->
+            <div class="flex items-center justify-between gap-1">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${partyColor}">${p.party}</span>
+              <div>${alarmBadgeHtml}</div>
+            </div>
+
+            <!-- Politician Name & Title -->
+            <div>
+              <h3 class="font-extrabold text-sm sm:text-base text-slate-900 leading-snug">${p.name}</h3>
+              <p class="text-xs text-slate-500 font-medium">${p.role}</p>
+            </div>
+
+            <!-- Location Details -->
+            <div class="text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 space-y-1">
+              <div class="flex items-center space-x-1.5 font-bold text-slate-800">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i>
+                <span>${p.state} • ${p.lga}</span>
+              </div>
+              <div class="text-[10px] text-slate-500">Ward: <strong class="text-slate-700">${p.ward}</strong></div>
+              <div class="text-[10px] text-slate-500 truncate" title="${p.pu_name}">PU: <strong class="text-slate-700">${p.pu_name}</strong></div>
+              <div class="font-mono text-[10px] text-blue-700 font-bold">${p.pu_code}</div>
+            </div>
+
+            <!-- 2023 vs 2027 Progression Meter -->
+            <div class="grid grid-cols-3 gap-2 text-center bg-white p-2.5 rounded-xl border border-slate-200/90 shadow-2xs">
+              <div>
+                <span class="text-[9px] uppercase font-bold text-slate-400 block">2023 Baseline</span>
+                <span class="font-mono font-bold text-slate-800 text-xs sm:text-sm">${p.c23}</span>
+              </div>
+              <div>
+                <span class="text-[9px] uppercase font-bold text-amber-500 block">2027 Prelim</span>
+                <span class="font-mono font-black text-slate-900 text-xs sm:text-sm">${p.c27}</span>
+              </div>
+              <div>
+                <span class="text-[9px] uppercase font-bold text-slate-400 block">Change</span>
+                <span class="font-mono font-black text-xs sm:text-sm ${deltaColor}">${p.delta > 0 ? '+' : ''}${p.delta} (${p.pctGrowth}%)</span>
+              </div>
+            </div>
+
+            <!-- Alarm Teaser -->
+            <div class="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
+              ${p.alarmReason}
+            </div>
+          </div>
+
+          <!-- Card Actions -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="openPolModal('${p.id}')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="microscope" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Inspect Dossier</span>
+            </button>
+            <button onclick="shareDirectWhatsApp('${p.id}')" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition" title="Share Alert on WhatsApp">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      }
+
+      lucide.createIcons();
+    }
+
+    // Modal Handling
+    function openPolModal(id) {
+      const pol = politiciansData.find(p => p.id === id);
+      if (!pol) return;
+      selectedPolitician = pol;
+
+      document.getElementById('modal-pol-name').textContent = pol.name;
+      document.getElementById('modal-pol-role').textContent = pol.role;
+      document.getElementById('modal-party-badge').textContent = pol.party;
+      
+      const partyBadge = document.getElementById('modal-party-badge');
+      partyBadge.className = `px-2 py-0.5 rounded text-[10px] font-bold ${
+        pol.party === 'APC' ? 'bg-sky-100 text-sky-800 border border-sky-200' :
+        pol.party === 'PDP' ? 'bg-red-100 text-red-800 border border-red-200' :
+        pol.party === 'LP' ? 'bg-green-100 text-green-800 border border-green-200' :
+        pol.party === 'NNPP' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+        'bg-slate-100 text-slate-800'
+      }`;
+
+      // Alarm badge
+      const alarmEl = document.getElementById('modal-alarm-badge');
+      const box = document.getElementById('modal-alarm-box');
+      const boxTitle = document.getElementById('modal-alarm-box-title');
+      const boxDesc = document.getElementById('modal-alarm-box-desc');
+
+      if (pol.alarmLevel === 'CRITICAL_ALARM') {
+        alarmEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300">🚨 Critical Alarm</span>`;
+        box.className = 'p-3.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-900 space-y-1.5';
+        boxTitle.className = 'font-bold flex items-center space-x-1.5 text-rose-950';
+      } else if (pol.alarmLevel === 'WARNING_SPIKE') {
+        alarmEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-800 border border-amber-300">⚠️ Warning Spike</span>`;
+        box.className = 'p-3.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 space-y-1.5';
+        boxTitle.className = 'font-bold flex items-center space-x-1.5 text-amber-950';
+      } else if (pol.alarmLevel === 'PURGE_ALERT') {
+        alarmEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-100 text-purple-800 border border-purple-200">📉 Voter Purge Alert</span>`;
+        box.className = 'p-3.5 rounded-xl border border-purple-200 bg-purple-50 text-purple-900 space-y-1.5';
+        boxTitle.className = 'font-bold flex items-center space-x-1.5 text-purple-950';
+      } else {
+        alarmEl.innerHTML = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">✅ Stable Baseline</span>`;
+        box.className = 'p-3.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900 space-y-1.5';
+        boxTitle.className = 'font-bold flex items-center space-x-1.5 text-emerald-950';
+      }
+
+      boxDesc.textContent = pol.alarmReason;
+
+      document.getElementById('modal-pu-fullname').textContent = pol.pu_name;
+      document.getElementById('modal-pu-code').textContent = pol.pu_code;
+      document.getElementById('modal-ward').textContent = `Ward: ${pol.ward}`;
+      document.getElementById('modal-lga-state').textContent = `${pol.lga}, ${pol.state}`;
+
+      document.getElementById('modal-c23-val').textContent = pol.c23.toLocaleString();
+      document.getElementById('modal-c27-val').textContent = pol.c27.toLocaleString();
+      document.getElementById('modal-delta-badge').textContent = `${pol.delta > 0 ? '+' : ''}${pol.delta} (${pol.pctGrowth}%)`;
+
+      document.getElementById('pol-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+
+    function closePolModal() {
+      document.getElementById('pol-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function shareDirectWhatsApp(id) {
+      const pol = politiciansData.find(p => p.id === id);
+      if (!pol) return;
+      selectedPolitician = pol;
+      shareAlarmOnWhatsApp();
+    }
+
+    function shareAlarmOnWhatsApp() {
+      if (!selectedPolitician) return;
+      const text = `🚨 *POLITICIAN POLLING UNIT AUDIT ALERT*
+*VIP:* ${selectedPolitician.name} (${selectedPolitician.role})
+*Party:* ${selectedPolitician.party} | *State:* ${selectedPolitician.state}
+*Polling Unit:* ${selectedPolitician.pu_name} (${selectedPolitician.pu_code})
+*Ward:* ${selectedPolitician.ward}
+
+📊 *Voter Progression:*
+• 2023 Baseline: ${selectedPolitician.c23}
+• 2027 Preliminary: ${selectedPolitician.c27}
+• Change: ${selectedPolitician.delta > 0 ? '+' : ''}${selectedPolitician.delta} (${selectedPolitician.pctGrowth}%)
+
+⚠️ *Audit Finding:*
+${selectedPolitician.alarmReason}
+
+👉 Verified via Citizen Polling Unit Audit System`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function copyPoliticianDossier() {
+      if (!selectedPolitician) return;
+      const text = `POLITICIAN POLLING UNIT DOSSIER:
+Name: ${selectedPolitician.name}
+Role: ${selectedPolitician.role}
+Party: ${selectedPolitician.party}
+Location: ${selectedPolitician.state}, LGA: ${selectedPolitician.lga}, Ward: ${selectedPolitician.ward}
+Polling Unit: ${selectedPolitician.pu_name} (${selectedPolitician.pu_code})
+2023 Baseline Count: ${selectedPolitician.c23}
+2027 Preliminary Count: ${selectedPolitician.c27}
+Difference: ${selectedPolitician.delta > 0 ? '+' : ''}${selectedPolitician.delta} (${selectedPolitician.pctGrowth}%)
+Alarm Status: ${selectedPolitician.alarmBadge}
+Assessment: ${selectedPolitician.alarmReason}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = document.getElementById('modal-copy-btn-text');
+        btnText.textContent = 'Copied!';
+        setTimeout(() => { btnText.textContent = 'Copy Dossier'; }, 2000);
+      });
+    }
+
+    // Filter Handlers
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-tab').forEach(b => {
+        b.className = 'cat-tab px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition';
+      });
+      const activeBtn = document.getElementById(`tab-cat-${cat}`);
+      if (activeBtn) {
+        activeBtn.className = 'cat-tab px-3 py-1.5 rounded-lg font-bold bg-slate-200 text-slate-900 shadow-xs transition';
+      }
+      renderPoliticians();
+    }
+
+    function filterByAlarm(alarm) {
+      setCategoryFilter('ALARM_ONLY');
+      document.getElementById('pol-alarm-select').value = 'ALL';
+    }
+
+    function handleSearch() {
+      currentSearchTerm = document.getElementById('pol-search-input').value;
+      const clearBtn = document.getElementById('btn-clear-search');
+      if (currentSearchTerm) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderPoliticians();
+    }
+
+    function clearSearch() {
+      document.getElementById('pol-search-input').value = '';
+      document.getElementById('btn-clear-search').classList.add('hidden');
+      currentSearchTerm = '';
+      renderPoliticians();
+    }
+
+    function handleStateSelect() {
+      currentFilterState = document.getElementById('pol-state-select').value;
+      renderPoliticians();
+    }
+
+    function handleAlarmSelect() {
+      currentFilterAlarm = document.getElementById('pol-alarm-select').value;
+      renderPoliticians();
+    }
+
+    function resetFilters() {
+      currentCategory = 'ALL';
+      currentSearchTerm = '';
+      currentFilterState = 'ALL';
+      currentFilterAlarm = 'ALL';
+      document.getElementById('pol-search-input').value = '';
+      document.getElementById('btn-clear-search').classList.add('hidden');
+      document.getElementById('pol-state-select').value = 'ALL';
+      document.getElementById('pol-alarm-select').value = 'ALL';
+      setCategoryFilter('ALL');
+    }
+
+    // Toggle Custom Politician Drawer
+    function toggleAddPoliticianDrawer() {
+      const drawer = document.getElementById('add-politician-drawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function handleCustomPoliticianSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('cust-name').value.trim();
+      const role = document.getElementById('cust-role').value.trim();
+      const party = document.getElementById('cust-party').value;
+      const state = document.getElementById('cust-state').value.trim().toUpperCase();
+      const lga = document.getElementById('cust-lga').value.trim().toUpperCase();
+      const ward = document.getElementById('cust-ward').value.trim().toUpperCase();
+      const puFull = document.getElementById('cust-pu-name').value.trim();
+      const c23 = parseInt(document.getElementById('cust-c23').value, 10) || 0;
+      const c27 = parseInt(document.getElementById('cust-c27').value, 10) || 0;
+
+      const delta = c27 - c23;
+      const pctGrowth = c23 > 0 ? ((delta / c23) * 100) : (c27 > 0 ? 100 : 0);
+      const expectedMax = Math.round(c23 * 1.12 + 30);
+      const discrepancy = Math.max(0, c27 - expectedMax);
+
+      let alarmLevel = 'NORMAL_STABLE';
+      let alarmBadge = '✅ Normal Baseline';
+      let alarmReason = 'Voter count progression is consistent with Nigeria\'s organic 4-year demographic growth (~10-15%).';
+
+      if (delta < -20) {
+        alarmLevel = 'PURGE_ALERT';
+        alarmBadge = '📉 Voter Purge Alert';
+        alarmReason = `Abnormal voter drop: ${Math.abs(delta)} voters vanished (${pctGrowth.toFixed(1)}%). Requires investigation.`;
+      } else if (c27 >= 1000 && c27 > c23 * 1.25) {
+        alarmLevel = 'CRITICAL_ALARM';
+        alarmBadge = '🚨 Critical: Statutory Cap Breach';
+        alarmReason = `Severe Inflation Alert: Surged to ${c27} voters without unbundling (+${delta} voters), breaching statutory ceiling of 1,000.`;
+      } else if (discrepancy >= 150) {
+        alarmLevel = 'CRITICAL_ALARM';
+        alarmBadge = '🚨 Critical Register Inflation';
+        alarmReason = `Extreme surge: +${delta} voters (+${pctGrowth.toFixed(1)}%). Estimated ${discrepancy} artificial excess voters.`;
+      } else if (discrepancy >= 40) {
+        alarmLevel = 'WARNING_SPIKE';
+        alarmBadge = '⚠️ Abnormal Surge Alert';
+        alarmReason = `Abnormal expansion (+${delta} voters, +${pctGrowth.toFixed(1)}%) exceeding regional demographic baseline.`;
+      }
+
+      const newPol = {
+        id: 'cust-' + Date.now(),
+        name,
+        role,
+        category: 'candidates',
+        party,
+        state,
+        lga,
+        ward,
+        pu_code: puFull.includes('(') ? puFull.split('(')[1].replace(')', '').trim() : 'CUSTOM-PU',
+        pu_name: puFull,
+        c23,
+        c27,
+        delta,
+        pctGrowth: Number(pctGrowth.toFixed(1)),
+        expectedMax,
+        discrepancy,
+        alarmLevel,
+        alarmBadge,
+        alarmReason,
+        liveMatch: false
+      };
+
+      politiciansData.unshift(newPol);
+      toggleAddPoliticianDrawer();
+      renderAll();
+      alert(`✅ ${name} successfully added to the VIP Watchlist! Alarm Level: ${alarmBadge}`);
+    }
+
+    // Export CSV
+    function exportPoliticiansCSV() {
+      const header = ['politician_name', 'role', 'party', 'state', 'lga', 'ward', 'pu_code', 'pu_name', 'count_2023', 'count_2027', 'delta', 'pct_growth', 'alarm_level', 'alarm_reason'];
+      const rows = politiciansData.map(p => [
+        `"${p.name}"`,
+        `"${p.role}"`,
+        `"${p.party}"`,
+        `"${p.state}"`,
+        `"${p.lga}"`,
+        `"${p.ward}"`,
+        `"${p.pu_code}"`,
+        `"${(p.pu_name || '').replace(/"/g, '""')}"`,
+        p.c23,
+        p.c27,
+        p.delta,
+        `${p.pctGrowth}%`,
+        `"${p.alarmLevel}"`,
+        `"${(p.alarmReason || '').replace(/"/g, '""')}"`
+      ]);
+      const csv = [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'nigeria_politicians_pu_audit.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
