@@ -32,3 +32,4 @@ if (!v1 || !v2) {
 } else {
   console.log("All politicians HTML script blocks parsed with zero syntax errors!");
 }
+

@@ -81,3 +81,4 @@ function updateFile(filePath) {
 
 updateFile('politicians.html');
 updateFile('public/politicians.html');
+

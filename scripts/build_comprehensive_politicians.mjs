@@ -1316,3 +1316,4 @@ const criticals = enrichedMaster.filter(p => p.alarmLevel === 'CRITICAL_ALARM').
 const warnings = enrichedMaster.filter(p => p.alarmLevel === 'WARNING_SPIKE').length;
 const purges = enrichedMaster.filter(p => p.alarmLevel === 'PURGE_ALERT').length;
 console.log({ total: enrichedMaster.length, criticals, warnings, purges, stable: enrichedMaster.length - criticals - warnings - purges });
+
